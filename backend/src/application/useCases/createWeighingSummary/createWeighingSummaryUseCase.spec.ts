@@ -1,6 +1,6 @@
 import { CreateWeighingSummaryUseCase } from "./createWeighingSummaryUseCase"
 import { v4 as uuid } from 'uuid'
-import { InMemoryWeighingRepository } from "../../../../tests/repositories/inMemoryWeighingRepository"
+import { InMemoryWeighingRepository } from "../../repositories/in-memory/inMemoryWeighingRepository"
 
 describe('Create weighing summary use case', () => {
     it('should be able to create a new weighing summary', async () => {

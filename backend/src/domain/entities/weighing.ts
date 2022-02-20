@@ -1,6 +1,7 @@
-import { Entity } from "../../core/domain/Entity"
+import { v4 as uuid } from 'uuid'
 
-type WeighingProps = {
+class Weighing {
+    id?: string
     code: string
     depositor: string
     lot: string
@@ -8,18 +9,13 @@ type WeighingProps = {
     input: number
     output: number
     sync: string
-}
 
-class Weighing extends Entity<WeighingProps> {
-    private constructor(props: WeighingProps, id?: string) {
-        super(props, id)
-    }
-
-    static create(props: WeighingProps, id?: string) {
-        const weighing = new Weighing(props)
-
-        return weighing
+    constructor() {
+        if (!this.id) {
+            this.id = uuid()
+        }
     }
 }
+
 
 export { Weighing }

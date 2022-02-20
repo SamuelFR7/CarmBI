@@ -22,7 +22,7 @@ class CreateWeighingSummaryUseCase {
             const weighingAlreadyExists = await this.weighingRepository.findByCode(item.code)
 
             if (weighingAlreadyExists) {
-                await this.weighingRepository.update(weighingAlreadyExists.props.code, {
+                await this.weighingRepository.update(weighingAlreadyExists.code, {
                     code: item.code,
                     depositor: item.depositor,
                     lot: item.lot,
@@ -47,8 +47,8 @@ class CreateWeighingSummaryUseCase {
         const allWeighings = await this.weighingRepository.findAll()
         
         allWeighings.map(async item => {
-            if (item.props.sync != sync) {
-                await this.weighingRepository.deleteByCode(item.props.code)
+            if (item.sync != sync) {
+                await this.weighingRepository.deleteByCode(item.code)
             }
         })
 
