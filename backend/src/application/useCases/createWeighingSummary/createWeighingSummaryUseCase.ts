@@ -1,4 +1,4 @@
-import { WeighingRepository } from "../../repositories/WeighingRepository";
+import { IWeighingRepository } from "../../repositories/IWeighingRepository";
 import { v4 as uuid } from 'uuid'
 
 type CreateWeighingSummaryUseCaseRequest = {
@@ -12,7 +12,7 @@ type CreateWeighingSummaryUseCaseRequest = {
 
 class CreateWeighingSummaryUseCase {
     constructor(
-        private weighingRepository: WeighingRepository
+        private weighingRepository: IWeighingRepository
     ) {}
 
     async execute(weighings: CreateWeighingSummaryUseCaseRequest[]) {

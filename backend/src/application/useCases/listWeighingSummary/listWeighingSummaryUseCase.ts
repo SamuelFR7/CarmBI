@@ -1,8 +1,8 @@
-import { WeighingRepository } from "../../repositories/WeighingRepository";
+import { IWeighingRepository } from "../../repositories/IWeighingRepository";
 
 class ListWeighingSummaryUseCase {
     constructor(
-        private weighingRepository: WeighingRepository
+        private weighingRepository: IWeighingRepository
     ) {}
 
     async execute() {

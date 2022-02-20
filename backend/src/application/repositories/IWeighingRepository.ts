@@ -10,7 +10,7 @@ export interface ICreateWeighingDTO {
     sync: string
 }
 
-export interface WeighingRepository {
+export interface IWeighingRepository {
     findByCode(cod: string): Promise<Weighing | null>
     deleteByCode(cod: string): Promise<true | null>
     findAll(): Promise<Weighing[]>

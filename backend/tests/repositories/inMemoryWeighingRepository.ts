@@ -1,7 +1,7 @@
-import { ICreateWeighingDTO, WeighingRepository } from "../../src/application/repositories/WeighingRepository";
+import { ICreateWeighingDTO, IWeighingRepository } from "../../src/application/repositories/IWeighingRepository";
 import { Weighing } from "../../src/domain/entities/weighing";
 
-class InMemoryWeighingRepository implements WeighingRepository {
+class InMemoryWeighingRepository implements IWeighingRepository {
     public items: Weighing[] = []
 
     async findByCode(cod: string): Promise<Weighing | null> {
