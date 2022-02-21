@@ -1,7 +1,7 @@
 import { Weighing } from '../../infra/typeorm/entities/weighing'
 import { IWeighingRepository } from '../IWeighingRepository'
 
-class InMemoryWeighingRepository implements IWeighingRepository {
+class WeighingRepositoryInMemory implements IWeighingRepository {
     weighings: Weighing[] = []
 
     async deleteByCode(cod: string): Promise<true | null> {
@@ -52,4 +52,4 @@ class InMemoryWeighingRepository implements IWeighingRepository {
     }
 }
 
-export { InMemoryWeighingRepository }
+export { WeighingRepositoryInMemory }

@@ -1,32 +1,20 @@
 import 'reflect-metadata'
 import { CreateWeighingSummaryUseCase } from './createWeighingSummaryUseCase'
-import { InMemoryWeighingRepository } from '../../repositories/in-memory/inMemoryWeighingRepository'
+import { WeighingRepositoryInMemory } from '../../repositories/in-memory/WeighingRepositoryInMemory'
+
+let createWeighingSummaryUseCase: CreateWeighingSummaryUseCase
+let weighingRepositoryInMemory: WeighingRepositoryInMemory
 
 describe('Create weighing summary use case', () => {
+    beforeEach(() => {
+        weighingRepositoryInMemory = new WeighingRepositoryInMemory()
+        createWeighingSummaryUseCase = new CreateWeighingSummaryUseCase(
+            weighingRepositoryInMemory
+        )
+    })
+
     it('should be able to create a new weighing summary', async () => {
-        const weighingRepository = new InMemoryWeighingRepository()
-        const sut = new CreateWeighingSummaryUseCase(weighingRepository)
-
-        await sut.execute([
-            {
-                code: '001',
-                depositor: 'ALDELINO',
-                lot: '001',
-                product: 'SOJA',
-                input: 1,
-                output: 1200,
-            },
-            {
-                code: '002',
-                depositor: 'JOÃO',
-                lot: '003',
-                product: 'MILHO',
-                input: 1200,
-                output: 1,
-            },
-        ])
-
-        const response = await sut.execute([
+        await createWeighingSummaryUseCase.execute([
             {
                 code: '001',
                 depositor: 'EDUARDO',
@@ -35,16 +23,38 @@ describe('Create weighing summary use case', () => {
                 input: 1,
                 output: 1200,
             },
+        ])
+
+        const createdSummary = await weighingRepositoryInMemory.findAll()
+
+        expect(createdSummary[0]).toHaveProperty('id')
+    })
+
+    it('should be able to substitute the older summary', async () => {
+        await createWeighingSummaryUseCase.execute([
             {
-                code: '003',
-                depositor: 'MARCOS',
-                lot: '005',
-                product: 'FEIJÃO',
-                input: 2400,
-                output: 1,
+                code: '001',
+                depositor: 'EDUARDO',
+                lot: '001',
+                product: 'SOJA',
+                input: 1,
+                output: 1200,
             },
         ])
 
-        expect(response).toBeTruthy()
+        await createWeighingSummaryUseCase.execute([
+            {
+                code: '002',
+                depositor: 'JOÃO',
+                lot: '003',
+                product: 'SOJA',
+                input: 1,
+                output: 1200,
+            },
+        ])
+
+        const substituteSummary = await weighingRepositoryInMemory.findAll()
+
+        expect(substituteSummary[0].depositor).toBe('JOÃO')
     })
 })
