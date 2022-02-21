@@ -5,7 +5,7 @@ import { Weighing } from "../../domain/entities/weighing";
 class WeighingRepository implements IWeighingRepository {
     private repository: Repository<Weighing>
 
-    private constructor() {
+    constructor() {
         this.repository = getRepository(Weighing)
     }
 
@@ -46,11 +46,13 @@ class WeighingRepository implements IWeighingRepository {
     }
 
     async update(code: string, newWeighingInfo: ICreateWeighingDTO): Promise<Weighing> {
-        const weighingToUpdate = await this.repository.findOne({where: {code}})
+        await this.repository.update({code}, newWeighingInfo)
 
-        await this.repository.update(weighingToUpdate, newWeighingInfo)
+        const updatedContact = await this.repository.findOne({where: code})
 
-        return newWeighingInfo
+        await this.repository.save(updatedContact)
+
+        return updatedContact
     }
 
 }

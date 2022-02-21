@@ -6,6 +6,7 @@ export default {
     "password": process.env.DB_PASSWORD,
     "database": process.env.DB_NAME,
     "migrations": ["./src/infra/typeorm/migrations/*.ts"],
+    "entities": ["./src/domain/entities/*.ts"],
     "cli": {
         "migrationsDir": "./src/infra/typeorm/migrations"
     }
