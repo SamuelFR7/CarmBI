@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
-import { ListWeighingSummaryUseCase } from './listWeighingSummaryUseCase'
+import { ListWeighingSummaryUseCase } from '../../../application/useCases/listWeighingSummary/listWeighingSummaryUseCase'
 
 class ListWeighingSummaryController {
     async handle(req: Request, res: Response): Promise<Response> {

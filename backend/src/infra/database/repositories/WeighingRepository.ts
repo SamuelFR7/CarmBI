@@ -1,5 +1,6 @@
 import { getRepository, Repository } from "typeorm";
-import { ICreateWeighingDTO, IWeighingRepository } from "../../../application/repositories/IWeighingRepository";
+import { ICreateWeighingDTO } from "../../../application/repositories/dtos/CreateWeighingDTO";
+import { IWeighingRepository } from "../../../application/repositories/IWeighingRepository";
 import { Weighing } from "../../../domain/entities/weighing";
 
 class WeighingRepository implements IWeighingRepository {
@@ -7,12 +8,6 @@ class WeighingRepository implements IWeighingRepository {
 
     constructor() {
         this.repository = getRepository(Weighing)
-    }
-
-    async findByCode(cod: string): Promise<Weighing> {
-        const weighing = await this.repository.findOne({where: {code: cod}})
-
-        return weighing
     }
 
     async deleteByCode(cod: string): Promise<true> {
@@ -29,38 +24,12 @@ class WeighingRepository implements IWeighingRepository {
         return allWeighings
     }
 
-    async create({ code, depositor, input, lot, output, product, sync }: ICreateWeighingDTO): Promise<Weighing> {
-        const weighing = this.repository.create({
-            code,
-            depositor,
-            input,
-            lot,
-            output,
-            product,
-            sync
-        })
+    async upsert(weighings: ICreateWeighingDTO[]): Promise<Weighing[]> {
+        await this.repository.upsert(weighings, ['code'])
 
-        await this.repository.save(weighing)
+        const newWeighings = await this.repository.find()
 
-        return weighing
-    }
-
-    async update(cod: string, {code, depositor, input, lot, output, product, sync}: ICreateWeighingDTO): Promise<Weighing> {
-        await this.repository.update({code: cod}, {
-            code,
-            depositor,
-            input,
-            lot,
-            output,
-            product,
-            sync
-        })
-
-        const updatedWeighing = await this.repository.findOne({where: {code: cod}})
-
-        await this.repository.save(updatedWeighing)
-
-        return updatedWeighing
+        return newWeighings
     }
 
 }

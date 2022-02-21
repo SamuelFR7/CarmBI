@@ -1,14 +1,9 @@
-import { ICreateWeighingDTO, IWeighingRepository } from "../IWeighingRepository";
+import { IWeighingRepository } from "../IWeighingRepository";
 import { Weighing } from "../../../domain/entities/weighing";
+import { ICreateWeighingDTO } from "../dtos/CreateWeighingDTO";
 
 class InMemoryWeighingRepository implements IWeighingRepository {
     weighings: Weighing[] = []
-
-    async findByCode(cod: string): Promise<Weighing> {
-        const weighing = this.weighings.find(item => item.code === cod)
-
-        return weighing
-    }
 
     async deleteByCode(cod: string): Promise<true | null> {
         const weighingToDelete = this.weighings.find(item => item.code === cod)
@@ -31,38 +26,26 @@ class InMemoryWeighingRepository implements IWeighingRepository {
         return allWeighing
     }
 
-    async create({ code, depositor, input, lot, output, product, sync }: ICreateWeighingDTO): Promise<Weighing> {
-        const weighing = new Weighing()
+    async upsert(weighings: Weighing[]): Promise<Weighing[]> {
+        weighings.map(weighing => {
+            const weighingAlreadyExists = this.weighings.find(item => item.code === weighing.code)
 
-        Object.assign(weighing, {
-            code,
-            depositor,
-            input,
-            lot,
-            output,
-            product,
-            sync
+            if (weighingAlreadyExists) {
+                Object.assign(weighingAlreadyExists, {
+                    code: weighing.code,
+                    depositor: weighing.depositor,
+                    lot: weighing.lot,
+                    product: weighing.product,
+                    input: weighing.input,
+                    output: weighing.output,
+                    sync: weighing.sync
+                })
+            } else {
+                this.weighings.push(weighing)
+            }
         })
 
-        this.weighings.push(weighing)
-
-        return weighing
-    }
-
-    async update(cod: string, {code, depositor, input, lot, output, product, sync}: ICreateWeighingDTO): Promise<Weighing> {
-        const weighing = this.weighings.find(item => item.code === cod)
-
-        Object.assign(weighing, {
-            code,
-            depositor,
-            input,
-            lot,
-            output,
-            product,
-            sync
-        })
-
-        return weighing
+        return this.weighings
     }
     
 }

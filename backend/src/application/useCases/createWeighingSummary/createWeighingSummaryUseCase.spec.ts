@@ -10,44 +10,41 @@ describe('Create weighing summary use case', () => {
             weighingRepository
         )
 
-        const sync = uuid()
-
-        await weighingRepository.create({
-            code: '002',
-            depositor: 'JOÃO',
-            lot: '001',
-            product: 'SOJA',
-            input: 1200,
-            output: 1,
-            sync,
-        })
-
-        await weighingRepository.create({
-            code: '003',
-            depositor: 'JEFFERSON',
-            lot: '003',
-            product: 'Feijão',
-            input: 200,
-            output: 1,
-            sync
-        })
-
-        const response = await sut.execute([
-            {
-                code: '002',
-                depositor: 'MARCOS',
-                lot: '001',
-                product: 'SOJA',
-                input: 1200,
-                output: 1,
-            },
+        await sut.execute([
             {
                 code: '001',
                 depositor: 'ALDELINO',
-                lot: '005',
+                lot: '001',
+                product: 'SOJA',
+                input: 1,
+                output: 1200,
+            },
+            {
+                code: '002',
+                depositor: 'JOÃO',
+                lot: '003',
                 product: 'MILHO',
-                input: 0,
-                output: 200
+                input: 1200,
+                output: 1,
+            }
+        ])
+
+        const response = await sut.execute([
+            {
+                code: '001',
+                depositor: 'EDUARDO',
+                lot: '001',
+                product: 'SOJA',
+                input: 1,
+                output: 1200,
+            },
+            {
+                code: '003',
+                depositor: 'MARCOS',
+                lot: '005',
+                product: 'FEIJÃO',
+                input: 2400,
+                output: 1,
             }
         ])
 
