@@ -31,7 +31,7 @@ class InMemoryWeighingRepository implements IWeighingRepository {
         return allWeighing
     }
 
-    async create({ code, depositor, input, lot, output, product }: ICreateWeighingDTO): Promise<Weighing> {
+    async create({ code, depositor, input, lot, output, product, sync }: ICreateWeighingDTO): Promise<Weighing> {
         const weighing = new Weighing()
 
         Object.assign(weighing, {
@@ -40,7 +40,8 @@ class InMemoryWeighingRepository implements IWeighingRepository {
             input,
             lot,
             output,
-            product
+            product,
+            sync
         })
 
         this.weighings.push(weighing)

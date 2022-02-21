@@ -14,6 +14,6 @@ export interface IWeighingRepository {
     findByCode(cod: string): Promise<Weighing | null>
     deleteByCode(cod: string): Promise<true | null>
     findAll(): Promise<Weighing[]>
-    create({code, depositor, input, lot, output, product}: ICreateWeighingDTO): Promise<Weighing>
+    create({code, depositor, input, lot, output, product, sync}: ICreateWeighingDTO): Promise<Weighing>
     update(code: string, newWeighingInfo: ICreateWeighingDTO): Promise<Weighing | null>
 }
