@@ -4,7 +4,9 @@ import { ListWeighingSummaryUseCase } from '../../../application/useCases/listWe
 
 class ListWeighingSummaryController {
     async handle(req: Request, res: Response): Promise<Response> {
-        const listWeighingUseCase = container.resolve(ListWeighingSummaryUseCase)
+        const listWeighingUseCase = container.resolve(
+            ListWeighingSummaryUseCase
+        )
 
         const weighings = await listWeighingUseCase.execute()
 

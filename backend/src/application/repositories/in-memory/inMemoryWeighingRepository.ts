@@ -1,12 +1,13 @@
-import { IWeighingRepository } from "../IWeighingRepository";
-import { Weighing } from "../../../domain/entities/weighing";
-import { ICreateWeighingDTO } from "../dtos/CreateWeighingDTO";
+import { IWeighingRepository } from '../IWeighingRepository'
+import { Weighing } from '../../../domain/entities/weighing'
 
 class InMemoryWeighingRepository implements IWeighingRepository {
     weighings: Weighing[] = []
 
     async deleteByCode(cod: string): Promise<true | null> {
-        const weighingToDelete = this.weighings.find(item => item.code === cod)
+        const weighingToDelete = this.weighings.find(
+            (item) => item.code === cod
+        )
 
         if (!weighingToDelete) {
             throw new Error('Has no item do delete')
@@ -27,8 +28,10 @@ class InMemoryWeighingRepository implements IWeighingRepository {
     }
 
     async upsert(weighings: Weighing[]): Promise<Weighing[]> {
-        weighings.map(weighing => {
-            const weighingAlreadyExists = this.weighings.find(item => item.code === weighing.code)
+        weighings.map((weighing) => {
+            const weighingAlreadyExists = this.weighings.find(
+                (item) => item.code === weighing.code
+            )
 
             if (weighingAlreadyExists) {
                 Object.assign(weighingAlreadyExists, {
@@ -38,7 +41,7 @@ class InMemoryWeighingRepository implements IWeighingRepository {
                     product: weighing.product,
                     input: weighing.input,
                     output: weighing.output,
-                    sync: weighing.sync
+                    sync: weighing.sync,
                 })
             } else {
                 this.weighings.push(weighing)
@@ -47,7 +50,6 @@ class InMemoryWeighingRepository implements IWeighingRepository {
 
         return this.weighings
     }
-    
 }
 
 export { InMemoryWeighingRepository }

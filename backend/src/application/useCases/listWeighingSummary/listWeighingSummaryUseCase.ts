@@ -1,5 +1,5 @@
-import { inject, injectable } from "tsyringe"
-import { IWeighingRepository } from "../../repositories/IWeighingRepository";
+import { inject, injectable } from 'tsyringe'
+import { IWeighingRepository } from '../../repositories/IWeighingRepository'
 
 @injectable()
 class ListWeighingSummaryUseCase {

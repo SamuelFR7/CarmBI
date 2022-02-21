@@ -1,7 +1,7 @@
-import { getRepository, Repository } from "typeorm";
-import { ICreateWeighingDTO } from "../../../application/repositories/dtos/CreateWeighingDTO";
-import { IWeighingRepository } from "../../../application/repositories/IWeighingRepository";
-import { Weighing } from "../../../domain/entities/weighing";
+import { getRepository, Repository } from 'typeorm'
+import { ICreateWeighingDTO } from '../../../application/repositories/dtos/CreateWeighingDTO'
+import { IWeighingRepository } from '../../../application/repositories/IWeighingRepository'
+import { Weighing } from '../../../domain/entities/weighing'
 
 class WeighingRepository implements IWeighingRepository {
     private repository: Repository<Weighing>
@@ -11,7 +11,9 @@ class WeighingRepository implements IWeighingRepository {
     }
 
     async deleteByCode(cod: string): Promise<true> {
-        const weighingToDelete = await this.repository.findOne({where: {code: cod}})
+        const weighingToDelete = await this.repository.findOne({
+            where: { code: cod },
+        })
 
         await this.repository.remove(weighingToDelete)
 
@@ -31,7 +33,6 @@ class WeighingRepository implements IWeighingRepository {
 
         return newWeighings
     }
-
 }
 
 export { WeighingRepository }

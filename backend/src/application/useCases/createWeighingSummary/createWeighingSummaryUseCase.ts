@@ -1,9 +1,8 @@
 import { inject, injectable } from 'tsyringe'
-import { IWeighingRepository } from "../../repositories/IWeighingRepository";
+import { IWeighingRepository } from '../../repositories/IWeighingRepository'
 import { v4 as uuid } from 'uuid'
 import { ICreateWeighingDTO } from '../../repositories/dtos/CreateWeighingDTO'
-import { Weighing } from '../../../domain/entities/weighing';
-
+import { Weighing } from '../../../domain/entities/weighing'
 
 @injectable()
 class CreateWeighingSummaryUseCase {
@@ -15,30 +14,29 @@ class CreateWeighingSummaryUseCase {
     async execute(weighings: ICreateWeighingDTO[]) {
         const sync = uuid()
 
-        const allWeighing: Weighing[] = []
+        const newWeighings: Weighing[] = []
 
-        weighings.map(item => {
+        weighings.map((item) => {
             const newWeighing = new Weighing()
             Object.assign(newWeighing, {
-                id: uuid(),
                 code: item.code,
                 depositor: item.depositor,
                 lot: item.lot,
                 product: item.product,
                 input: item.input,
                 output: item.output,
-                sync
+                sync,
             })
 
-            allWeighing.push(newWeighing)
+            newWeighings.push(newWeighing)
         })
 
-        await this.weighingRepository.upsert(allWeighing)
+        await this.weighingRepository.upsert(newWeighings)
 
         const allWeighings = await this.weighingRepository.findAll()
-        
-        allWeighings.map(async item => {
-            if (item.sync != sync) {
+
+        allWeighings.map(async (item) => {
+            if (item.sync !== sync) {
                 await this.weighingRepository.deleteByCode(item.code)
             }
         })

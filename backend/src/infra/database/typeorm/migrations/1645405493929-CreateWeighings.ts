@@ -1,7 +1,6 @@
-import {MigrationInterface, QueryRunner, Table } from "typeorm"
+import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 
 export class CreateWeighings1645405493929 implements MigrationInterface {
-
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
@@ -10,38 +9,38 @@ export class CreateWeighings1645405493929 implements MigrationInterface {
                     {
                         name: 'id',
                         type: 'varchar',
-                        isPrimary: true
+                        isPrimary: true,
                     },
                     {
                         name: 'code',
                         type: 'varchar',
-                        isUnique: true
+                        isUnique: true,
                     },
                     {
                         name: 'depositor',
-                        type: 'varchar'
+                        type: 'varchar',
                     },
                     {
                         name: 'lot',
-                        type: 'varchar'
+                        type: 'varchar',
                     },
                     {
                         name: 'product',
-                        type: 'varchar'
+                        type: 'varchar',
                     },
                     {
                         name: 'input',
-                        type: 'int'
+                        type: 'int',
                     },
                     {
                         name: 'output',
-                        type: 'int'
+                        type: 'int',
                     },
                     {
                         name: 'sync',
-                        type: 'varchar'
-                    }
-                ]
+                        type: 'varchar',
+                    },
+                ],
             })
         )
     }
@@ -49,5 +48,4 @@ export class CreateWeighings1645405493929 implements MigrationInterface {
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable('weighings')
     }
-
 }

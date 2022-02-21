@@ -1,14 +1,11 @@
 import 'reflect-metadata'
-import { CreateWeighingSummaryUseCase } from "./createWeighingSummaryUseCase"
-import { v4 as uuid } from 'uuid'
-import { InMemoryWeighingRepository } from "../../repositories/in-memory/inMemoryWeighingRepository"
+import { CreateWeighingSummaryUseCase } from './createWeighingSummaryUseCase'
+import { InMemoryWeighingRepository } from '../../repositories/in-memory/inMemoryWeighingRepository'
 
 describe('Create weighing summary use case', () => {
     it('should be able to create a new weighing summary', async () => {
         const weighingRepository = new InMemoryWeighingRepository()
-        const sut = new CreateWeighingSummaryUseCase(
-            weighingRepository
-        )
+        const sut = new CreateWeighingSummaryUseCase(weighingRepository)
 
         await sut.execute([
             {
@@ -26,7 +23,7 @@ describe('Create weighing summary use case', () => {
                 product: 'MILHO',
                 input: 1200,
                 output: 1,
-            }
+            },
         ])
 
         const response = await sut.execute([
@@ -45,7 +42,7 @@ describe('Create weighing summary use case', () => {
                 product: 'FEIJÃO',
                 input: 2400,
                 output: 1,
-            }
+            },
         ])
 
         expect(response).toBeTruthy()

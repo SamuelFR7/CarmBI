@@ -5,7 +5,9 @@ import { CreateWeighingSummaryUseCase } from '../../../application/useCases/crea
 class CreateWeighingSummaryController {
     async handle(req: Request, res: Response): Promise<Response> {
         const { weighings } = req.body
-        const createCategoryUseCase = container.resolve(CreateWeighingSummaryUseCase)
+        const createCategoryUseCase = container.resolve(
+            CreateWeighingSummaryUseCase
+        )
 
         await createCategoryUseCase.execute(weighings)
 
