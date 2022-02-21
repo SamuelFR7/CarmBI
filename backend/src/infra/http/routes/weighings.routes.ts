@@ -1,16 +1,15 @@
 import Router from 'express'
 
-import createWeighingSummaryController from '../../../application/useCases/createWeighingSummary'
-import listWeighingSummaryController from '../../../application/useCases/listWeighingSummary'
+import { CreateWeighingSummaryController } from '../../../application/useCases/createWeighingSummary/createWeighingSummaryController'
+import { ListWeighingSummaryController } from '../../../application/useCases/listWeighingSummary/listWeighingSummaryController'
 
 const weighingRoutes = Router()
 
-weighingRoutes.post('/', (req, res) => {
-    return createWeighingSummaryController().handle(req, res)
-})
+const createWeighingSummaryController = new CreateWeighingSummaryController()
+const listWeighingSummaryController = new ListWeighingSummaryController()
 
-weighingRoutes.get('/', (req, res) => {
-    return listWeighingSummaryController().handle(req, res)
-})
+weighingRoutes.post('/', createWeighingSummaryController.handle)
+
+weighingRoutes.get('/', listWeighingSummaryController.handle)
 
 export { weighingRoutes }

@@ -2,7 +2,8 @@ import 'reflect-metadata'
 import express from 'express'
 import { router } from './routes'
 
-import '../typeorm'
+import '../database/typeorm'
+import '../../shared/container'
 
 const app = express()
 

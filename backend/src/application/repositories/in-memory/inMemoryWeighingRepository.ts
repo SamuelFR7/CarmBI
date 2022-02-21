@@ -49,10 +49,18 @@ class InMemoryWeighingRepository implements IWeighingRepository {
         return weighing
     }
 
-    async update(code: string, newWeighingInfo: ICreateWeighingDTO): Promise<Weighing> {
-        const weighing = this.weighings.find(item => item.code === code)
+    async update(cod: string, {code, depositor, input, lot, output, product, sync}: ICreateWeighingDTO): Promise<Weighing> {
+        const weighing = this.weighings.find(item => item.code === cod)
 
-        Object.assign(weighing, newWeighingInfo)
+        Object.assign(weighing, {
+            code,
+            depositor,
+            input,
+            lot,
+            output,
+            product,
+            sync
+        })
 
         return weighing
     }

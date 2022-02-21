@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { InMemoryWeighingRepository } from "../../repositories/in-memory/inMemoryWeighingRepository";
 import { ListWeighingSummaryUseCase } from "./listWeighingSummaryUseCase";
 import { v4 as uuid } from 'uuid'

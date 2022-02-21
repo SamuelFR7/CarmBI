@@ -1,3 +1,4 @@
+import { inject, injectable } from 'tsyringe'
 import { IWeighingRepository } from "../../repositories/IWeighingRepository";
 import { v4 as uuid } from 'uuid'
 
@@ -10,8 +11,10 @@ type CreateWeighingSummaryUseCaseRequest = {
     output: number
 }
 
+@injectable()
 class CreateWeighingSummaryUseCase {
     constructor(
+        @inject('WeighingRepository')
         private weighingRepository: IWeighingRepository
     ) {}
 

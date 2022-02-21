@@ -1,13 +1,12 @@
 import { Request, Response } from 'express'
+import { container } from 'tsyringe'
 import { ListWeighingSummaryUseCase } from './listWeighingSummaryUseCase'
 
 class ListWeighingSummaryController {
-    constructor(
-        private listWeighingUseCase: ListWeighingSummaryUseCase
-    ) {}
-
     async handle(req: Request, res: Response): Promise<Response> {
-        const weighings = await this.listWeighingUseCase.execute()
+        const listWeighingUseCase = container.resolve(ListWeighingSummaryUseCase)
+
+        const weighings = await listWeighingUseCase.execute()
 
         return res.status(201).json(weighings)
     }

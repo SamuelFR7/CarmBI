@@ -1,6 +1,6 @@
 import { getRepository, Repository } from "typeorm";
-import { ICreateWeighingDTO, IWeighingRepository } from "../../application/repositories/IWeighingRepository";
-import { Weighing } from "../../domain/entities/weighing";
+import { ICreateWeighingDTO, IWeighingRepository } from "../../../application/repositories/IWeighingRepository";
+import { Weighing } from "../../../domain/entities/weighing";
 
 class WeighingRepository implements IWeighingRepository {
     private repository: Repository<Weighing>
@@ -45,14 +45,22 @@ class WeighingRepository implements IWeighingRepository {
         return weighing
     }
 
-    async update(code: string, newWeighingInfo: ICreateWeighingDTO): Promise<Weighing> {
-        await this.repository.update({code}, newWeighingInfo)
+    async update(cod: string, {code, depositor, input, lot, output, product, sync}: ICreateWeighingDTO): Promise<Weighing> {
+        await this.repository.update({code: cod}, {
+            code,
+            depositor,
+            input,
+            lot,
+            output,
+            product,
+            sync
+        })
 
-        const updatedContact = await this.repository.findOne({where: code})
+        const updatedWeighing = await this.repository.findOne({where: {code: cod}})
 
-        await this.repository.save(updatedContact)
+        await this.repository.save(updatedWeighing)
 
-        return updatedContact
+        return updatedWeighing
     }
 
 }
