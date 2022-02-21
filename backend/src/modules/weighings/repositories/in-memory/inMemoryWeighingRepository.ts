@@ -1,5 +1,5 @@
+import { Weighing } from '../../infra/typeorm/entities/weighing'
 import { IWeighingRepository } from '../IWeighingRepository'
-import { Weighing } from '../../../domain/entities/weighing'
 
 class InMemoryWeighingRepository implements IWeighingRepository {
     weighings: Weighing[] = []

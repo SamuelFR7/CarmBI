@@ -1,4 +1,4 @@
-import { Weighing } from '../../domain/entities/weighing'
+import { Weighing } from '../infra/typeorm/entities/weighing'
 
 export interface IWeighingRepository {
     deleteByCode(cod: string): Promise<true | null>

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
-import { CreateWeighingSummaryUseCase } from '../../../application/useCases/createWeighingSummary/createWeighingSummaryUseCase'
+import { CreateWeighingSummaryUseCase } from './createWeighingSummaryUseCase'
 
 class CreateWeighingSummaryController {
     async handle(req: Request, res: Response): Promise<Response> {

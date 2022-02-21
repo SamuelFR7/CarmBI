@@ -1,6 +1,6 @@
 import { container } from 'tsyringe'
-import { IWeighingRepository } from '../../application/repositories/IWeighingRepository'
-import { WeighingRepository } from '../../infra/database/repositories/WeighingRepository'
+import { WeighingRepository } from '../../modules/weighings/infra/typeorm/repositories/WeighingRepository'
+import { IWeighingRepository } from '../../modules/weighings/repositories/IWeighingRepository'
 
 container.registerSingleton<IWeighingRepository>(
     'WeighingRepository',

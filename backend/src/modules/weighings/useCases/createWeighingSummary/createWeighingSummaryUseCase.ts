@@ -1,8 +1,8 @@
 import { inject, injectable } from 'tsyringe'
 import { IWeighingRepository } from '../../repositories/IWeighingRepository'
 import { v4 as uuid } from 'uuid'
-import { ICreateWeighingDTO } from '../../repositories/dtos/CreateWeighingDTO'
-import { Weighing } from '../../../domain/entities/weighing'
+import { ICreateWeighingDTO } from '../../dtos/CreateWeighingDTO'
+import { Weighing } from '../../infra/typeorm/entities/weighing'
 
 @injectable()
 class CreateWeighingSummaryUseCase {

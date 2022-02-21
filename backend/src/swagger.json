@@ -1,0 +1,126 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "CarmBI Documentation",
+        "description": "This is an nodejs API",
+        "version": "1.0.0",
+        "contact": {
+            "email": "samuelferreirarezende@gmail.com"
+        }
+    },
+    "paths": {
+        "/weighings": {
+            "post": {
+                "tags": ["Weighings"],
+                "summary": "Create a weighing summary",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "weighings": {
+                                        "type": "array",
+                                        "properties": {
+                                            "code": {
+                                                "type": "string"
+                                            },
+                                            "depositor":{
+                                                "type": "string"
+                                            },
+                                            "lot": {
+                                                "type": "string"
+                                            },
+                                            "product": {
+                                                "type": "string"
+                                            },
+                                            "input": {
+                                                "type": "int"
+                                            },
+                                            "output": {
+                                                "type": "int"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "weighings": [
+                                        {
+                                            "code": "Weighing code example",
+                                            "depositor": "Weighing depositor example",
+                                            "lot": "Weighing lot example",
+                                            "product": "Weighing product example",
+                                            "input": 100,
+                                            "output": 1
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Weighings"],
+                "summary": "List all weighings",
+                "description": "List all weighings",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "depositor":{
+                                            "type": "string"
+                                        },
+                                        "lot": {
+                                            "type": "string"
+                                        },
+                                        "product": {
+                                            "type": "string"
+                                        },
+                                        "input": {
+                                            "type": "int"
+                                        },
+                                        "output": {
+                                            "type": "int"
+                                        },
+                                        "sync": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": 
+                                        [
+                                            {
+                                                "id": "5b0b1bc0-dc4b-4f99-8ff5-de23bd427d39",
+                                                "code": "Weighing code example",
+                                                "depositor": "Weighing depositor example",
+                                                "lot": "Weighing lot example",
+                                                "product": "Weighing product example",
+                                                "input": 100,
+                                                "output": 1,
+                                                "sync": "4e284973-de62-4e5a-99c9-4692f3b1c665"
+                                            }
+                                        ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

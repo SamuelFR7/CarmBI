@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
-import { ListWeighingSummaryUseCase } from '../../../application/useCases/listWeighingSummary/listWeighingSummaryUseCase'
+import { ListWeighingSummaryUseCase } from './listWeighingSummaryUseCase'
 
 class ListWeighingSummaryController {
     async handle(req: Request, res: Response): Promise<Response> {
@@ -10,7 +10,7 @@ class ListWeighingSummaryController {
 
         const weighings = await listWeighingUseCase.execute()
 
-        return res.status(201).json(weighings)
+        return res.status(200).json(weighings)
     }
 }
 
