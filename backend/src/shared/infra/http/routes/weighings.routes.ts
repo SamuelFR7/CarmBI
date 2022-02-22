@@ -1,7 +1,7 @@
 import Router from 'express'
 
-import { CreateWeighingSummaryController } from '../../../../modules/weighings/useCases/createWeighingSummary/createWeighingSummaryController'
-import { ListWeighingSummaryController } from '../../../../modules/weighings/useCases/listWeighingSummary/listWeighingSummaryController'
+import { CreateWeighingSummaryController } from '@modules/weighings/useCases/createWeighingSummary/createWeighingSummaryController'
+import { ListWeighingSummaryController } from '@modules/weighings/useCases/listWeighingSummary/listWeighingSummaryController'
 
 const weighingRoutes = Router()
 

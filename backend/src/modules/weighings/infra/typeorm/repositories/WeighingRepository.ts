@@ -1,6 +1,6 @@
 import { getRepository, Repository } from 'typeorm'
-import { ICreateWeighingDTO } from '../../../dtos/CreateWeighingDTO'
-import { IWeighingRepository } from '../../../repositories/IWeighingRepository'
+import { ICreateWeighingDTO } from '@modules/weighings/dtos/CreateWeighingDTO'
+import { IWeighingRepository } from '@modules/weighings/repositories/IWeighingRepository'
 import { Weighing } from '../entities/weighing'
 
 class WeighingRepository implements IWeighingRepository {
