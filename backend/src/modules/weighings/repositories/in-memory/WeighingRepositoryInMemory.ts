@@ -1,8 +1,35 @@
-import { Weighing } from '../../infra/typeorm/entities/weighing'
+import { Weighing } from '@modules/weighings/entities/weighing'
 import { IWeighingRepository } from '../IWeighingRepository'
+import { v4 as uuid } from 'uuid'
 
 class WeighingRepositoryInMemory implements IWeighingRepository {
     weighings: Weighing[] = []
+
+    async findByCode(code: string): Promise<Weighing> {
+        const weighing = this.weighings.find((item) => item.code === code)
+
+        return weighing
+    }
+
+    async update(code: string, weighing: Weighing): Promise<Weighing> {
+        const weighingToUpdate = this.weighings.find(
+            (item) => item.code === code
+        )
+
+        const newWeighing = Object.assign(weighingToUpdate, weighing)
+
+        return newWeighing
+    }
+
+    async create(weighing: Weighing): Promise<Weighing> {
+        Object.assign(weighing, {
+            id: uuid(),
+        })
+
+        this.weighings.push(weighing)
+
+        return weighing
+    }
 
     async deleteByCode(cod: string): Promise<true | null> {
         const weighingToDelete = this.weighings.find(
@@ -25,30 +52,6 @@ class WeighingRepositoryInMemory implements IWeighingRepository {
         const allWeighing = this.weighings
 
         return allWeighing
-    }
-
-    async upsert(weighings: Weighing[]): Promise<Weighing[]> {
-        weighings.map((weighing) => {
-            const weighingAlreadyExists = this.weighings.find(
-                (item) => item.code === weighing.code
-            )
-
-            if (weighingAlreadyExists) {
-                Object.assign(weighingAlreadyExists, {
-                    code: weighing.code,
-                    depositor: weighing.depositor,
-                    lot: weighing.lot,
-                    product: weighing.product,
-                    input: weighing.input,
-                    output: weighing.output,
-                    sync: weighing.sync,
-                })
-            } else {
-                this.weighings.push(weighing)
-            }
-        })
-
-        return this.weighings
     }
 }
 
