@@ -2,7 +2,6 @@ import { inject, injectable } from 'tsyringe'
 import { IWeighingRepository } from '../../repositories/IWeighingRepository'
 import { v4 as uuid } from 'uuid'
 import { ICreateWeighingDTO } from '../../dtos/CreateWeighingDTO'
-import { Weighing } from '../../infra/typeorm/entities/weighing'
 
 @injectable()
 class CreateWeighingSummaryUseCase {
@@ -14,24 +13,34 @@ class CreateWeighingSummaryUseCase {
     async execute(weighings: ICreateWeighingDTO[]) {
         const sync = uuid()
 
-        const newWeighings: Weighing[] = []
+        await Promise.all(
+            weighings.map(async (item) => {
+                const weighingAlreadyExists =
+                    await this.weighingRepository.findByCode(item.code)
 
-        weighings.map((item) => {
-            const newWeighing = new Weighing()
-            Object.assign(newWeighing, {
-                code: item.code,
-                depositor: item.depositor,
-                lot: item.lot,
-                product: item.product,
-                input: item.input,
-                output: item.output,
-                sync,
+                if (weighingAlreadyExists) {
+                    await this.weighingRepository.update(item.code, {
+                        code: item.code,
+                        depositor: item.depositor,
+                        input: item.input,
+                        lot: item.lot,
+                        output: item.output,
+                        product: item.product,
+                        sync,
+                    })
+                } else {
+                    await this.weighingRepository.create({
+                        code: item.code,
+                        depositor: item.depositor,
+                        input: item.input,
+                        lot: item.lot,
+                        output: item.output,
+                        product: item.product,
+                        sync,
+                    })
+                }
             })
-
-            newWeighings.push(newWeighing)
-        })
-
-        await this.weighingRepository.upsert(newWeighings)
+        )
 
         const allWeighings = await this.weighingRepository.findAll()
 

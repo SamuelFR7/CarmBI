@@ -15,20 +15,18 @@ describe('List weighing summary use case', () => {
     })
 
     it('should be able to list all weighing summary', async () => {
-        const weighing = await weighingRepositoryInMemory.upsert([
-            {
-                code: '001',
-                depositor: 'EDUARDO',
-                lot: '001',
-                product: 'SOJA',
-                input: 1,
-                output: 1200,
-                sync: uuid(),
-            },
-        ])
+        const weighing = await weighingRepositoryInMemory.create({
+            code: '001',
+            depositor: 'EDUARDO',
+            lot: '001',
+            product: 'SOJA',
+            input: 1,
+            output: 1200,
+            sync: uuid(),
+        })
 
-        const weighings = await listWeighingSummaryUseCase.execute()
+        const allWeighings = await listWeighingSummaryUseCase.execute()
 
-        expect(weighings).toEqual(weighing)
+        expect(allWeighings[0]).toEqual(weighing)
     })
 })

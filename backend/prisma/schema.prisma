@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Weighing {
+    id              String      @id @default(uuid())
+    code            String      @unique
+    depositor       String
+    lot             String
+    product         String
+    input           Int
+    output          Int
+    sync            String
+
+    @@map("weighings")
+}

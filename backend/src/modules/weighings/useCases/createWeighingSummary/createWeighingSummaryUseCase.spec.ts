@@ -27,7 +27,7 @@ describe('Create weighing summary use case', () => {
 
         const createdSummary = await weighingRepositoryInMemory.findAll()
 
-        expect(createdSummary[0]).toHaveProperty('id')
+        expect(createdSummary[0]).toBeTruthy()
     })
 
     it('should be able to substitute the older summary', async () => {
