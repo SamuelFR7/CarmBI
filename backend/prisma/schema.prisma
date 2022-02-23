@@ -13,6 +13,7 @@ model Weighing {
     depositor       String
     lot             String
     product         String
+    productor_type  String
     input           Int
     output          Int
     sync            String

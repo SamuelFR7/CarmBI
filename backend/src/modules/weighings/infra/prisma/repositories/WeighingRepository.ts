@@ -21,6 +21,7 @@ class WeighingRepository implements IWeighingRepository {
                 lot: weighing.lot,
                 output: weighing.output,
                 product: weighing.product,
+                productor_type: weighing.productor_type,
                 sync: weighing.sync,
             },
         })
@@ -37,6 +38,7 @@ class WeighingRepository implements IWeighingRepository {
                 lot: weighing.lot,
                 output: weighing.output,
                 product: weighing.product,
+                productor_type: weighing.productor_type,
                 sync: weighing.sync,
             },
         })

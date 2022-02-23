@@ -5,6 +5,7 @@ CREATE TABLE `weighings` (
     `depositor` VARCHAR(191) NOT NULL,
     `lot` VARCHAR(191) NOT NULL,
     `product` VARCHAR(191) NOT NULL,
+    `productor_type` VARCHAR(191) NOT NULL,
     `input` INTEGER NOT NULL,
     `output` INTEGER NOT NULL,
     `sync` VARCHAR(191) NOT NULL,

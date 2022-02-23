@@ -20,6 +20,7 @@ describe('List weighing summary use case', () => {
             depositor: 'EDUARDO',
             lot: '001',
             product: 'SOJA',
+            productor_type: '1',
             input: 1,
             output: 1200,
             sync: uuid(),
