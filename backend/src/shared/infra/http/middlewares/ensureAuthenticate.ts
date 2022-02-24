@@ -1,4 +1,5 @@
 import { UserRepository } from '@modules/users/infra/prisma/UserRepository'
+import { AppError } from '@shared/errors/AppError'
 import { NextFunction, Request, Response } from 'express'
 import { verify } from 'jsonwebtoken'
 
@@ -14,7 +15,7 @@ async function ensureAuthenticate(
     const authHeader = req.headers.authorization
 
     if (!authHeader) {
-        throw new Error('Token missing')
+        throw new AppError('Token missing', 401)
     }
 
     const [, token] = authHeader.split(' ')
@@ -30,7 +31,7 @@ async function ensureAuthenticate(
         const user = usersRepository.findById(user_id)
 
         if (!user) {
-            throw new Error('User does not exists')
+            throw new AppError('User does not exists', 401)
         }
 
         req.user = {
@@ -39,7 +40,7 @@ async function ensureAuthenticate(
 
         next()
     } catch (error) {
-        throw new Error('Invalid token')
+        throw new AppError('Invalid token', 401)
     }
 }
 
