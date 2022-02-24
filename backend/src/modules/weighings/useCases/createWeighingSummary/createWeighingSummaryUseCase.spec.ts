@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { CreateWeighingSummaryUseCase } from './createWeighingSummaryUseCase'
+import { CreateWeighingSummaryUseCase } from './CreateWeighingSummaryUseCase'
 import { WeighingRepositoryInMemory } from '../../repositories/in-memory/WeighingRepositoryInMemory'
 
 let createWeighingSummaryUseCase: CreateWeighingSummaryUseCase

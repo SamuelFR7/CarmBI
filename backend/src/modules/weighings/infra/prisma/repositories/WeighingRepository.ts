@@ -1,4 +1,4 @@
-import { prisma } from '@shared/infra/http/prisma/client'
+import { prisma } from '@shared/infra/database/prisma/client'
 import { Weighing } from '@modules/weighings/entities/weighing'
 import { IWeighingRepository } from '@modules/weighings/repositories/IWeighingRepository'
 

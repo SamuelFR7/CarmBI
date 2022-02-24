@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { WeighingRepositoryInMemory } from '../../repositories/in-memory/WeighingRepositoryInMemory'
-import { ListWeighingSummaryUseCase } from './listWeighingSummaryUseCase'
+import { ListWeighingSummaryUseCase } from './ListWeighingSummaryUseCase'
 import { v4 as uuid } from 'uuid'
 
 let listWeighingSummaryUseCase: ListWeighingSummaryUseCase
