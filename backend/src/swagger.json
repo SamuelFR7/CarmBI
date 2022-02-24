@@ -13,6 +13,10 @@
             "post": {
                 "tags": ["Weighings"],
                 "summary": "Create a weighing summary",
+                "description": "Create a new weighing summary",
+                "security": [
+                   { "bearerAuth": [] } 
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -37,6 +41,9 @@
                                             "input": {
                                                 "type": "int"
                                             },
+                                            "productor_type": {
+                                                "type": "string"
+                                            },
                                             "output": {
                                                 "type": "int"
                                             }
@@ -50,6 +57,7 @@
                                             "depositor": "Weighing depositor example",
                                             "lot": "Weighing lot example",
                                             "product": "Weighing product example",
+                                            "productor_type": "Weighing productor type example",
                                             "input": 100,
                                             "output": 1
                                         }
@@ -62,6 +70,9 @@
                 "responses": {
                     "201": {
                         "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
                     }
                 }
             },
@@ -69,6 +80,9 @@
                 "tags": ["Weighings"],
                 "summary": "List all weighings",
                 "description": "List all weighings",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -118,6 +132,101 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    } 
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create a new user",
+                "description": "Create a new user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "username": "username",
+                                    "password": "password"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "User already exists"
+                    }
+                }
+            }
+        },
+        "/users/session": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create a new user session",
+                "description": "Create a new suer sesion",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "username": "username",
+                                    "password": "password"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object",
+                                            "properties": {
+                                                "username": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User already exists"
                     }
                 }
             }
