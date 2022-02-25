@@ -26,7 +26,10 @@ describe('List weighing summary use case', () => {
             sync: uuid(),
         })
 
-        const allWeighings = await listWeighingSummaryUseCase.execute()
+        const allWeighings = await listWeighingSummaryUseCase.execute({
+            productor_type: '1',
+            lot: '001',
+        })
 
         expect(allWeighings[0]).toEqual(weighing)
     })

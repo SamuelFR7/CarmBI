@@ -1,3 +1,4 @@
+import { IFilterWeighingDTO } from '@modules/weighings/dtos/FilterWeighingDTO'
 import { inject, injectable } from 'tsyringe'
 import { IWeighingRepository } from '../../repositories/IWeighingRepository'
 
@@ -8,8 +9,11 @@ class ListWeighingSummaryUseCase {
         private weighingRepository: IWeighingRepository
     ) {}
 
-    async execute() {
-        const weighings = await this.weighingRepository.findAll()
+    async execute({ productor_type, lot }: IFilterWeighingDTO) {
+        const weighings = await this.weighingRepository.findByFilters({
+            productor_type,
+            lot,
+        })
 
         return weighings
     }

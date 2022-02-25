@@ -1,6 +1,7 @@
 import { Weighing } from '@modules/weighings/entities/weighing'
 import { IWeighingRepository } from '../IWeighingRepository'
 import { v4 as uuid } from 'uuid'
+import { IFilterWeighingDTO } from '@modules/weighings/dtos/FilterWeighingDTO'
 
 class WeighingRepositoryInMemory implements IWeighingRepository {
     weighings: Weighing[] = []
@@ -52,6 +53,21 @@ class WeighingRepositoryInMemory implements IWeighingRepository {
         const allWeighing = this.weighings
 
         return allWeighing
+    }
+
+    async findByFilters({
+        productor_type,
+        lot,
+    }: IFilterWeighingDTO): Promise<Weighing[]> {
+        const weighingsByProductorType = this.weighings.filter(
+            (item) => item.productor_type === productor_type
+        )
+
+        const weighingsByLot = weighingsByProductorType.filter(
+            (item) => item.lot === lot
+        )
+
+        return weighingsByLot
     }
 }
 

@@ -1,6 +1,7 @@
 import { prisma } from '@shared/infra/database/prisma/client'
 import { Weighing } from '@modules/weighings/entities/weighing'
 import { IWeighingRepository } from '@modules/weighings/repositories/IWeighingRepository'
+import { IFilterWeighingDTO } from '@modules/weighings/dtos/FilterWeighingDTO'
 
 class WeighingRepository implements IWeighingRepository {
     async findByCode(code: string): Promise<Weighing> {
@@ -55,6 +56,20 @@ class WeighingRepository implements IWeighingRepository {
         const allWeighing = await prisma.weighing.findMany()
 
         return allWeighing
+    }
+
+    async findByFilters({
+        productor_type,
+        lot,
+    }: IFilterWeighingDTO): Promise<Weighing[]> {
+        const filteredWeighings = await prisma.weighing.findMany({
+            where: {
+                productor_type,
+                lot,
+            },
+        })
+
+        return filteredWeighings
     }
 }
 

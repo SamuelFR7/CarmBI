@@ -1,4 +1,5 @@
 import { Weighing } from '@modules/weighings/entities/weighing'
+import { IFilterWeighingDTO } from '../dtos/FilterWeighingDTO'
 
 export interface IWeighingRepository {
     deleteByCode(cod: string): Promise<true | null>
@@ -6,4 +7,8 @@ export interface IWeighingRepository {
     findByCode(code: string): Promise<Weighing>
     update(code: string, weighing: Weighing): Promise<Weighing>
     create(weighing: Weighing): Promise<Weighing>
+    findByFilters({
+        productor_type,
+        lot,
+    }: IFilterWeighingDTO): Promise<Weighing[]>
 }
