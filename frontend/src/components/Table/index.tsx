@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CheckButton, Container, Content, Filters, Header, Heading, WeighingTable } from './styles'
 
 interface IWeighing {
@@ -12,40 +12,40 @@ interface IWeighing {
     sync: string
 }
 
+interface ILots {
+    lot: string
+    product: string
+}
+
 function Table() {
-    const [producerButton, setProducerButton] = useState(false)
-    const [buyerButton, setBuyerButton] = useState(false)
+    const [producerType, setProducerType] = useState('')
     const [lot, setLot] = useState('')
+    const [allLots, setAllLots] = useState<ILots[]>([])
     const [weighings, setWeighings] = useState<IWeighing[]>([])
 
-    function handleRequest() {
-        fetch(`http://localhost:3333/weighings/${buyerButton ? '2' : '1'}/${lot}`, {
+    useEffect(() => {
+        fetch('http://localhost:3333/weighings/lots', {
             headers: new Headers({
-                'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU4MTMwNTcsImV4cCI6MTY0NTg5OTQ1Nywic3ViIjoiZTFlMjE3N2MtMjFhNC00ZmRlLWFiZjAtMmMxODNjYjE3YWY2In0.odtRnI2yP3K_PYkT5PlER0oxDKVsKLNrxP44QmAH4-Y'
+                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU4MTY3NzksImV4cCI6MTY0NTkwMzE3OSwic3ViIjoiNWM3MWUyYmYtYzdlNi00OTVhLTlkZDctMzkwZTcwOGY5MjcwIn0.0Cm7g1zI1qJCvfzWTvmcKRz_IpypbmUBKG8A2bStBNw"
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            setAllLots(data)
+            setLot(data[0].lot)
+        })
+    }, [])
+
+    function handleRequest() {
+        fetch(`http://localhost:3333/weighings/${producerType}/${lot}`, {
+            headers: new Headers({
+                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU4MTY2OTksImV4cCI6MTY0NTkwMzA5OSwic3ViIjoiNWM3MWUyYmYtYzdlNi00OTVhLTlkZDctMzkwZTcwOGY5MjcwIn0.z0sAGetUVpQW7pT2U1gG3-g8r8p1z0f0A4DeuvLxAwI"
             })
         })
         .then(response => response.json())
         .then(data => {
             setWeighings(data)
         })
-    } 
-
-    function handleEnableButtonAndDisableOther(whichActive: 'producer' | 'buyer') {
-        if (whichActive === 'buyer') {
-            if (buyerButton) {
-                setBuyerButton(false)
-            } else {
-                setProducerButton(false)
-                setBuyerButton(true)
-            }
-        } else {
-            if (producerButton) {
-                setProducerButton(false)
-            } else {
-                setBuyerButton(false)
-                setProducerButton(true)
-            }
-        }
     }
 
     return (
@@ -57,16 +57,22 @@ function Table() {
                     </Heading>
 
                     <Filters>
-                        <CheckButton enabled={producerButton} onClick={() => handleEnableButtonAndDisableOther('producer')}>
+                        <CheckButton enabled={producerType === '1' ? true : false} onClick={() => setProducerType('1')}>
                             <button type='button' ></button>
                             <p>Produtor</p>
                         </CheckButton>
-                        <CheckButton enabled={buyerButton} onClick={() => handleEnableButtonAndDisableOther('buyer')} >
+                        <CheckButton enabled={producerType === '2' ? true : false} onClick={() => setProducerType('2')} >
                             <button type='button'></button>
                             <p>Comprador</p>
                         </CheckButton>
 
-                        <input type="text" value={lot} onChange={e => setLot(e.target.value)} />
+                        <select onChange={e => setLot(e.target.value)}>
+                            {allLots.map(lots => {
+                                return (
+                                    <option value={lots.lot} key={lots.lot}>{`${lots.lot} - ${lots.product}`}</option>
+                                )
+                            })}
+                        </select>
                         <button className='confirmFilters' onClick={handleRequest} >Confirmar</button>
                     </Filters>
                 </Header>

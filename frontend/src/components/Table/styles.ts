@@ -36,11 +36,12 @@ export const Filters = styled.div`
     display: flex;
     align-items: center;
 
-    input {
-        border: 1px black solid;
+    select {
         padding: 0.5rem;
+        width: 8rem;
         border-radius: 2rem;
 
+        
     }
 
     .confirmFilters {
