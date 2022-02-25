@@ -1,7 +1,6 @@
 import 'reflect-metadata'
 import { CreateWeighingSummaryUseCase } from './CreateWeighingSummaryUseCase'
 import { WeighingRepositoryInMemory } from '../../repositories/in-memory/WeighingRepositoryInMemory'
-
 let createWeighingSummaryUseCase: CreateWeighingSummaryUseCase
 let weighingRepositoryInMemory: WeighingRepositoryInMemory
 

@@ -24,6 +24,7 @@ class CreateUserUseCase {
 
         await this.usersRepository.create({
             username,
+
             password: passwordHash,
         })
     }
