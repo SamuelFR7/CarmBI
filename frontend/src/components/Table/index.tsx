@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { CheckButton, Container, Content, Filters, Header, Heading, WeighingTable } from './styles'
+import { useQuery } from 'react-query'
+import axios from 'axios'
 
 interface IWeighing {
     id: string
@@ -20,32 +22,20 @@ interface ILots {
 function Table() {
     const [producerType, setProducerType] = useState('')
     const [lot, setLot] = useState('')
-    const [allLots, setAllLots] = useState<ILots[]>([])
     const [weighings, setWeighings] = useState<IWeighing[]>([])
 
-    useEffect(() => {
-        fetch('http://localhost:3333/weighings/lots', {
-            headers: new Headers({
-                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU4MTY3NzksImV4cCI6MTY0NTkwMzE3OSwic3ViIjoiNWM3MWUyYmYtYzdlNi00OTVhLTlkZDctMzkwZTcwOGY5MjcwIn0.0Cm7g1zI1qJCvfzWTvmcKRz_IpypbmUBKG8A2bStBNw"
-            })
+    const { data: allLots } = useQuery('lots', async () => {
+        const response = await axios.get<ILots[]>('http://localhost:3333/weighings/lots', {
+            headers: {
+                'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU4MjAwMjYsImV4cCI6MTY0NTkwNjQyNiwic3ViIjoiNWM3MWUyYmYtYzdlNi00OTVhLTlkZDctMzkwZTcwOGY5MjcwIn0.MRGCaOSatvggGPyKdD3bPWKYMpbYjCdDdZN_nDT4IHE' 
+            }
         })
-        .then(response => response.json())
-        .then(data => {
-            setAllLots(data)
-            setLot(data[0].lot)
-        })
-    }, [])
+
+        return response.data
+    })
 
     function handleRequest() {
-        fetch(`http://localhost:3333/weighings/${producerType}/${lot}`, {
-            headers: new Headers({
-                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU4MTY2OTksImV4cCI6MTY0NTkwMzA5OSwic3ViIjoiNWM3MWUyYmYtYzdlNi00OTVhLTlkZDctMzkwZTcwOGY5MjcwIn0.z0sAGetUVpQW7pT2U1gG3-g8r8p1z0f0A4DeuvLxAwI"
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            setWeighings(data)
-        })
+        console.log("a")
     }
 
     return (
@@ -67,7 +57,7 @@ function Table() {
                         </CheckButton>
 
                         <select onChange={e => setLot(e.target.value)}>
-                            {allLots.map(lots => {
+                            {allLots?.map(lots => {
                                 return (
                                     <option value={lots.lot} key={lots.lot}>{`${lots.lot} - ${lots.product}`}</option>
                                 )
