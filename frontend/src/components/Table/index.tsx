@@ -6,7 +6,7 @@ interface IWeighing {
     code: string
     depositor: string
     product: string
-    productor_type: string
+    producer_type: string
     input: number
     output: number
     sync: string
@@ -28,8 +28,6 @@ function Table() {
         .then(data => {
             setWeighings(data)
         })
-
-        console.log(weighings)
     } 
 
     function handleEnableButtonAndDisableOther(whichActive: 'producer' | 'buyer') {

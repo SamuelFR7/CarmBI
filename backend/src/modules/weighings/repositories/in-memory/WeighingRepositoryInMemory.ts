@@ -2,6 +2,7 @@ import { Weighing } from '@modules/weighings/entities/weighing'
 import { IWeighingRepository } from '../IWeighingRepository'
 import { v4 as uuid } from 'uuid'
 import { IFilterWeighingDTO } from '@modules/weighings/dtos/FilterWeighingDTO'
+import { IListWeighingLotsDTO } from '@modules/weighings/dtos/ListWeighingsLotsDTO'
 
 class WeighingRepositoryInMemory implements IWeighingRepository {
     weighings: Weighing[] = []
@@ -68,6 +69,20 @@ class WeighingRepositoryInMemory implements IWeighingRepository {
         )
 
         return weighingsByLot
+    }
+
+    async listLots(): Promise<IListWeighingLotsDTO[]> {
+        const lots: IListWeighingLotsDTO[] = []
+        this.weighings.map((item) => {
+            const thisLot: IListWeighingLotsDTO = {
+                lot: item.lot,
+                product: item.product,
+            }
+
+            lots.push(thisLot)
+        })
+
+        return lots
     }
 }
 
