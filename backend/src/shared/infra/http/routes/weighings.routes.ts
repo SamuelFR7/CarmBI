@@ -17,7 +17,7 @@ weighingRoutes.post(
     createWeighingSummaryController.handle
 )
 weighingRoutes.get(
-    '/:productor/:lot',
+    '/:producer/:lot',
     ensureAuthenticate,
     listWeighingSummaryController.handle
 )

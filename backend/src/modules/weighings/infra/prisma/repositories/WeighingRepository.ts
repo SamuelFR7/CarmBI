@@ -22,7 +22,7 @@ class WeighingRepository implements IWeighingRepository {
                 lot: weighing.lot,
                 output: weighing.output,
                 product: weighing.product,
-                productor_type: weighing.productor_type,
+                producer_type: weighing.producer_type,
                 sync: weighing.sync,
             },
         })
@@ -39,7 +39,7 @@ class WeighingRepository implements IWeighingRepository {
                 lot: weighing.lot,
                 output: weighing.output,
                 product: weighing.product,
-                productor_type: weighing.productor_type,
+                producer_type: weighing.producer_type,
                 sync: weighing.sync,
             },
         })
@@ -59,12 +59,12 @@ class WeighingRepository implements IWeighingRepository {
     }
 
     async findByFilters({
-        productor_type,
+        producer_type,
         lot,
     }: IFilterWeighingDTO): Promise<Weighing[]> {
         const filteredWeighings = await prisma.weighing.findMany({
             where: {
-                productor_type,
+                producer_type,
                 lot,
             },
         })

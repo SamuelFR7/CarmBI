@@ -9,9 +9,9 @@ class ListWeighingSummaryUseCase {
         private weighingRepository: IWeighingRepository
     ) {}
 
-    async execute({ productor_type, lot }: IFilterWeighingDTO) {
+    async execute({ producer_type, lot }: IFilterWeighingDTO) {
         const weighings = await this.weighingRepository.findByFilters({
-            productor_type,
+            producer_type,
             lot,
         })
 

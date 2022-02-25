@@ -1,5 +1,5 @@
 interface IFilterWeighingDTO {
-    productor_type: string
+    producer_type: string
     lot: string
 }
 

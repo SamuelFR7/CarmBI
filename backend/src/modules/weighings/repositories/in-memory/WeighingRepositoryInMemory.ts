@@ -56,14 +56,14 @@ class WeighingRepositoryInMemory implements IWeighingRepository {
     }
 
     async findByFilters({
-        productor_type,
+        producer_type,
         lot,
     }: IFilterWeighingDTO): Promise<Weighing[]> {
-        const weighingsByProductorType = this.weighings.filter(
-            (item) => item.productor_type === productor_type
+        const weighingsByProducerType = this.weighings.filter(
+            (item) => item.producer_type === producer_type
         )
 
-        const weighingsByLot = weighingsByProductorType.filter(
+        const weighingsByLot = weighingsByProducerType.filter(
             (item) => item.lot === lot
         )
 

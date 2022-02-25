@@ -8,7 +8,7 @@ export interface IWeighingRepository {
     update(code: string, weighing: Weighing): Promise<Weighing>
     create(weighing: Weighing): Promise<Weighing>
     findByFilters({
-        productor_type,
+        producer_type,
         lot,
     }: IFilterWeighingDTO): Promise<Weighing[]>
 }

@@ -41,7 +41,7 @@
                                             "input": {
                                                 "type": "int"
                                             },
-                                            "productor_type": {
+                                            "producer_type": {
                                                 "type": "string"
                                             },
                                             "output": {
@@ -57,7 +57,7 @@
                                             "depositor": "Weighing depositor example",
                                             "lot": "Weighing lot example",
                                             "product": "Weighing product example",
-                                            "productor_type": "Weighing productor type example",
+                                            "producer_type": "Weighing producer type example",
                                             "input": 100,
                                             "output": 1
                                         }

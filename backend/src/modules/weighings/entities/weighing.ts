@@ -4,7 +4,7 @@ class Weighing {
     depositor: string
     lot: string
     product: string
-    productor_type: string
+    producer_type: string
     input: number
     output: number
     sync: string
@@ -15,7 +15,7 @@ class Weighing {
             depositor: weighing.depositor,
             lot: weighing.lot,
             product: weighing.product,
-            productor_type: weighing.productor_type,
+            producer_type: weighing.producer_type,
             input: weighing.input,
             output: weighing.output,
             sync: weighing.sync,

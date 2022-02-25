@@ -3,7 +3,7 @@ export interface ICreateWeighingDTO {
     depositor: string
     lot: string
     product: string
-    productor_type: string
+    producer_type: string
     input: number
     output: number
 }
