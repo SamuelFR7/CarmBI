@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { CheckButton, Container, Content, Filters, Header, Heading, WeighingTable } from './styles'
 import { useQuery } from 'react-query'
 import axios from 'axios'
@@ -32,10 +32,17 @@ function Table() {
         })
 
         return response.data
+    }, {
+        staleTime: 1000 * 30 // 30 Seconds
     })
 
-    function handleRequest() {
-        console.log("a")
+    async function handleRequest() {
+        const { data } = await axios.get<IWeighing[]>(`http://localhost:3333/weighings/${producerType}/${lot}`, {
+            headers: {
+                'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU4MjAwMjYsImV4cCI6MTY0NTkwNjQyNiwic3ViIjoiNWM3MWUyYmYtYzdlNi00OTVhLTlkZDctMzkwZTcwOGY5MjcwIn0.MRGCaOSatvggGPyKdD3bPWKYMpbYjCdDdZN_nDT4IHE' 
+            }
+        })
+        setWeighings(data)
     }
 
     return (
@@ -57,6 +64,7 @@ function Table() {
                         </CheckButton>
 
                         <select onChange={e => setLot(e.target.value)}>
+                            <option value='' disabled selected>Selecione</option>
                             {allLots?.map(lots => {
                                 return (
                                     <option value={lots.lot} key={lots.lot}>{`${lots.lot} - ${lots.product}`}</option>
