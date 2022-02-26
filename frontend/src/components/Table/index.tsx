@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { CheckButton, Container, Content, Filters, Header, Heading, WeighingTable } from './styles'
 import { useQuery } from 'react-query'
 import axios from 'axios'
+import { api } from '../../services/api'
 
 interface IWeighing {
     id: string
@@ -20,16 +21,12 @@ interface ILots {
 }
 
 function Table() {
-    const [producerType, setProducerType] = useState('')
-    const [lot, setLot] = useState('')
+    const [producerType, setProducerType] = useState('0')
+    const [lot, setLot] = useState('0')
     const [weighings, setWeighings] = useState<IWeighing[]>([])
 
     const { data: allLots } = useQuery('lots', async () => {
-        const response = await axios.get<ILots[]>('http://localhost:3333/weighings/lots', {
-            headers: {
-                'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU4MjAwMjYsImV4cCI6MTY0NTkwNjQyNiwic3ViIjoiNWM3MWUyYmYtYzdlNi00OTVhLTlkZDctMzkwZTcwOGY5MjcwIn0.MRGCaOSatvggGPyKdD3bPWKYMpbYjCdDdZN_nDT4IHE' 
-            }
-        })
+        const response = await api.get<ILots[]>('/weighings/lots')
 
         return response.data
     }, {
@@ -37,12 +34,9 @@ function Table() {
     })
 
     async function handleRequest() {
-        const { data } = await axios.get<IWeighing[]>(`http://localhost:3333/weighings/${producerType}/${lot}`, {
-            headers: {
-                'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU4MjAwMjYsImV4cCI6MTY0NTkwNjQyNiwic3ViIjoiNWM3MWUyYmYtYzdlNi00OTVhLTlkZDctMzkwZTcwOGY5MjcwIn0.MRGCaOSatvggGPyKdD3bPWKYMpbYjCdDdZN_nDT4IHE' 
-            }
-        })
-        setWeighings(data)
+           const { data } = await api.get<IWeighing[]>(`/weighings/${producerType}/${lot}`,)
+
+            setWeighings(data)
     }
 
     return (
