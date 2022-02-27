@@ -103,6 +103,10 @@ export const WeighingTable = styled.table`
                 padding: 1rem 1rem;
                 line-height: 1rem;
             }
+
+            :nth-last-child(1) {
+                color: ${theme.colors.green};
+            }
         }
     }
 `

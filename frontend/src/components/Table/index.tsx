@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CheckButton, Container, Content, Filters, Header, Heading, WeighingTable } from './styles'
 import { useQuery } from 'react-query'
 import axios from 'axios'
@@ -24,6 +24,8 @@ function Table() {
     const [producerType, setProducerType] = useState('0')
     const [lot, setLot] = useState('0')
     const [weighings, setWeighings] = useState<IWeighing[]>([])
+    const [totalInput, setTotalInput] = useState(0)
+    const [totalOutput, setTotalOutput] = useState(0)
 
     const { data: allLots } = useQuery('lots', async () => {
         const response = await api.get<ILots[]>('/weighings/lots')
@@ -34,10 +36,19 @@ function Table() {
     })
 
     async function handleRequest() {
-           const { data } = await api.get<IWeighing[]>(`/weighings/${producerType}/${lot}`,)
+            setTotalInput(0)
+            setTotalOutput(0)
+            const { data } = await api.get<IWeighing[]>(`/weighings/${producerType}/${lot}`,)
 
             setWeighings(data)
     }
+
+    useEffect(() => {
+        weighings.map(weighing => {
+            setTotalInput(totalInput + weighing.input)
+            setTotalOutput(totalOutput + weighing.output)
+        })
+    }, [weighings])
 
     return (
         <Container>
@@ -91,6 +102,13 @@ function Table() {
                                     </tr>
                                 )
                             })}
+                            <tr>
+                                <td>TOTAL</td>
+                                <td>TODOS</td>
+                                <td>{totalInput}</td>
+                                <td>{totalOutput}</td>
+                                <td>{totalInput - totalOutput}</td>
+                            </tr>
                         </tbody>
                     </WeighingTable>
             </Content>
