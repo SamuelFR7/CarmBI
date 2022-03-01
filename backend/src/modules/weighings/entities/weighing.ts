@@ -8,6 +8,7 @@ class Weighing {
     input: number
     output: number
     sync: string
+    updated_at: Date
 
     private constructor(weighing: Weighing) {
         return Object.assign(this, {
@@ -19,6 +20,7 @@ class Weighing {
             input: weighing.input,
             output: weighing.output,
             sync: weighing.sync,
+            updated_at: weighing.updated_at,
         })
     }
 

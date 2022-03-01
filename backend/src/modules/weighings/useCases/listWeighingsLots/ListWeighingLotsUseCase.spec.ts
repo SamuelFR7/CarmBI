@@ -13,7 +13,7 @@ describe('List weighings lots use case', () => {
         )
     })
 
-    it('should be abel to list all weighings lots', async () => {
+    it('should be able to list all weighings lots', async () => {
         await weighingRepositoryInMemory.create({
             code: '001',
             depositor: 'EDUARDO',
@@ -23,6 +23,7 @@ describe('List weighings lots use case', () => {
             input: 1,
             output: 1200,
             sync: uuid(),
+            updated_at: new Date(),
         })
 
         const newLot = {

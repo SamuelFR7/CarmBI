@@ -13,6 +13,7 @@ interface IWeighing {
     input: number
     output: number
     sync: string
+    updated_at: Date
 }
 
 interface ILots {

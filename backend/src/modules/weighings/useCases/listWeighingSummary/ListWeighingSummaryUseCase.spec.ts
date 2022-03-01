@@ -24,6 +24,7 @@ describe('List weighing summary use case', () => {
             input: 1,
             output: 1200,
             sync: uuid(),
+            updated_at: new Date(),
         })
 
         const allWeighings = await listWeighingSummaryUseCase.execute({

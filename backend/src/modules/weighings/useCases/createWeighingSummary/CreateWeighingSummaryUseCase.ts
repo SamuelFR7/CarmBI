@@ -12,6 +12,7 @@ class CreateWeighingSummaryUseCase {
 
     async execute(weighings: ICreateWeighingDTO[]) {
         const sync = uuid()
+        const updated_at = new Date()
 
         await Promise.all(
             weighings.map(async (item) => {
@@ -28,6 +29,7 @@ class CreateWeighingSummaryUseCase {
                         output: item.output,
                         product: item.product,
                         sync,
+                        updated_at,
                     })
                 } else {
                     await this.weighingRepository.create({
@@ -39,6 +41,7 @@ class CreateWeighingSummaryUseCase {
                         output: item.output,
                         product: item.product,
                         sync,
+                        updated_at,
                     })
                 }
             })

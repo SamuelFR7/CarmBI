@@ -9,6 +9,7 @@ CREATE TABLE `weighings` (
     `input` INTEGER NOT NULL,
     `output` INTEGER NOT NULL,
     `sync` VARCHAR(191) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `weighings_code_key`(`code`),
     PRIMARY KEY (`id`)

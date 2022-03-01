@@ -13,10 +13,11 @@ model Weighing {
     depositor       String
     lot             String
     product         String
-    producer_type  String
+    producer_type   String
     input           Int
     output          Int
     sync            String
+    updated_at      DateTime
 
     @@map("weighings")
 }
