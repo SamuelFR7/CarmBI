@@ -102,10 +102,10 @@ export const WeighingTable = styled.table`
             td {
                 padding: 1rem 1rem;
                 line-height: 1rem;
-            }
-
-            :nth-last-child(1) {
-                color: ${theme.colors.green};
+                
+                :nth-last-child(1), :nth-last-child(2), :nth-last-child(3){
+                    text-align: right;
+                }
             }
         }
     }

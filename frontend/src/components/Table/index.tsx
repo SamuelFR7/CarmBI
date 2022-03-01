@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { CheckButton, Container, Content, Filters, Header, Heading, InfoSummary, WeighingTable } from './styles'
 import { useQuery } from 'react-query'
-import axios from 'axios'
 import { api } from '../../services/api'
 
 interface IWeighing {
@@ -27,19 +26,16 @@ function Table() {
     const [weighings, setWeighings] = useState<IWeighing[]>([])
     const [totalInput, setTotalInput] = useState(0)
     const [totalOutput, setTotalOutput] = useState(0)
+    const [lastUpdate, setLastUpdate] = useState<string | null>(null)
 
     const { data: allLots } = useQuery('lots', async () => {
         const response = await api.get<ILots[]>('/weighings/lots')
 
-        return response.data
+        const lotsArray = response.data.reverse()
+
+        return lotsArray
     }, {
         staleTime: 1000 * 30 // 30 Seconds
-    })
-
-    const { data: updateTime } = useQuery('updateTime', async () => {
-        const response = await api.get<string>('/weighings/time')
-
-        return response.data
     })
 
     async function handleRequest() {
@@ -47,14 +43,35 @@ function Table() {
             setTotalOutput(0)
             const { data } = await api.get<IWeighing[]>(`/weighings/${producerType}/${lot}`,)
 
-            setWeighings(data)
+            // sort array by depositor alphabetically
+            const weighingArray = data.sort((a, b) => {
+                if (a.depositor < b.depositor) {
+                    return -1
+                }
+                if (a.depositor > b.depositor) {
+                    return 1
+                }
+                return 0
+            })
+
+            setWeighings(weighingArray)
     }
 
     useEffect(() => {
-        weighings.map(weighing => {
-            setTotalInput(totalInput + weighing.input)
-            setTotalOutput(totalOutput + weighing.output)
-        })
+        async function getLastUpdateTime() {
+            const response = await api.get<string>('/weighings/time')
+            setLastUpdate(response.data)
+        }
+
+        function updateWeighingsInfo() {
+            weighings.map(weighing => {
+                setTotalInput(totalInput + weighing.input)
+                setTotalOutput(totalOutput + weighing.output)
+            })
+        }
+
+        weighings[0] ? setLastUpdate(weighings[0].updated_at) : getLastUpdateTime()
+        updateWeighingsInfo()
     }, [weighings])
 
     return (
@@ -103,9 +120,9 @@ function Table() {
                                     <tr key={weighing.id}>
                                         <td>{weighing.depositor}</td>
                                         <td>{weighing.product}</td>
-                                        <td>{weighing.input}</td>
-                                        <td>{weighing.output}</td>
-                                        <td>{weighing.input - weighing.output}</td>
+                                        <td>{new Intl.NumberFormat('pt-BR').format(weighing.input)}</td>
+                                        <td>{new Intl.NumberFormat('pt-BR').format(weighing.output)}</td>
+                                        <td>{new Intl.NumberFormat('pt-BR').format(weighing.input - weighing.output)}</td>
                                     </tr>
                                 )
                             })}
@@ -114,19 +131,19 @@ function Table() {
                     <InfoSummary>
                         <div>
                             <h1>Total de Entradas</h1>
-                            <p>{totalInput}</p>
+                            <p>{new Intl.NumberFormat('pt-BR').format(totalInput)}</p>
                         </div>
                         <div>
                             <h1>Total de Saídas</h1>
-                            <p>{totalOutput}</p>
+                            <p>{new Intl.NumberFormat('pt-BR').format(totalOutput)}</p>
                         </div>
                         <div>
                             <h1>Saldo Total</h1>
-                            <p>{totalInput - totalOutput}</p>
+                            <p>{new Intl.NumberFormat('pt-BR').format(totalInput - totalOutput)}</p>
                         </div>
                         <div>
                             <h1>Ultima alteração</h1>
-                            <p>{updateTime ? new Intl.DateTimeFormat('pt-BR', {dateStyle: 'short',timeStyle: 'medium'}).format(Date.parse(updateTime)) : 'Carregando...'}</p>
+                            <p>{lastUpdate ? new Intl.DateTimeFormat('pt-BR', {dateStyle: 'short',timeStyle: 'short'}).format(Date.parse(lastUpdate)) : 'Carregando...'}</p>
                         </div>
                     </InfoSummary>
             </Content>
