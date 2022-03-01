@@ -43,7 +43,6 @@ function Table() {
             setTotalOutput(0)
             const { data } = await api.get<IWeighing[]>(`/weighings/${producerType}/${lot}`,)
 
-            // sort array by depositor alphabetically
             const weighingArray = data.sort((a, b) => {
                 if (a.depositor < b.depositor) {
                     return -1
