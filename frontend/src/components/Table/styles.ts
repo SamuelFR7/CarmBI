@@ -110,3 +110,33 @@ export const WeighingTable = styled.table`
         }
     }
 `
+
+export const InfoSummary = styled.div`
+    padding: 1rem;
+    margin: 1rem 1rem 0 1rem;
+    display: flex;
+    justify-content: space-between;
+
+    div {
+        background: ${theme.colors.bg};
+        padding: 2rem;
+        border-radius: 1rem;
+
+        p {
+            margin-top: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        :nth-child(2) {
+            p {
+                color: red;
+            }
+        }
+
+        :nth-child(1) {
+            p {
+                color: green;
+            }
+        }
+    }
+`

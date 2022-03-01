@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { CheckButton, Container, Content, Filters, Header, Heading, WeighingTable } from './styles'
+import { CheckButton, Container, Content, Filters, Header, Heading, InfoSummary, WeighingTable } from './styles'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import { api } from '../../services/api'
@@ -13,7 +13,7 @@ interface IWeighing {
     input: number
     output: number
     sync: string
-    updated_at: Date
+    updated_at: string
 }
 
 interface ILots {
@@ -34,6 +34,12 @@ function Table() {
         return response.data
     }, {
         staleTime: 1000 * 30 // 30 Seconds
+    })
+
+    const { data: updateTime } = useQuery('updateTime', async () => {
+        const response = await api.get<string>('/weighings/time')
+
+        return response.data
     })
 
     async function handleRequest() {
@@ -103,15 +109,26 @@ function Table() {
                                     </tr>
                                 )
                             })}
-                            <tr>
-                                <td>TOTAL</td>
-                                <td>TODOS</td>
-                                <td>{totalInput}</td>
-                                <td>{totalOutput}</td>
-                                <td>{totalInput - totalOutput}</td>
-                            </tr>
                         </tbody>
                     </WeighingTable>
+                    <InfoSummary>
+                        <div>
+                            <h1>Total de Entradas</h1>
+                            <p>{totalInput}</p>
+                        </div>
+                        <div>
+                            <h1>Total de Saídas</h1>
+                            <p>{totalOutput}</p>
+                        </div>
+                        <div>
+                            <h1>Saldo Total</h1>
+                            <p>{totalInput - totalOutput}</p>
+                        </div>
+                        <div>
+                            <h1>Ultima alteração</h1>
+                            <p>{updateTime ? new Intl.DateTimeFormat('pt-BR', {dateStyle: 'short',timeStyle: 'medium'}).format(Date.parse(updateTime)) : 'Carregando...'}</p>
+                        </div>
+                    </InfoSummary>
             </Content>
         </Container>
     )
