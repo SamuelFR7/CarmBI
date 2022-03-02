@@ -23,17 +23,20 @@ class CreateWeighingSummaryUseCase {
                     )
 
                 if (weighingAlreadyExists) {
-                    await this.weighingRepository.update(item.code, {
-                        code: weighingAlreadyExists.code,
-                        depositor: item.depositor,
-                        input: item.input,
-                        lot: item.lot,
-                        producer_type: item.producer_type,
-                        output: item.output,
-                        product: item.product,
-                        sync,
-                        updated_at,
-                    })
+                    await this.weighingRepository.update(
+                        weighingAlreadyExists.id,
+                        {
+                            code: weighingAlreadyExists.code,
+                            depositor: item.depositor,
+                            input: item.input,
+                            lot: item.lot,
+                            producer_type: item.producer_type,
+                            output: item.output,
+                            product: item.product,
+                            sync,
+                            updated_at,
+                        }
+                    )
                 } else {
                     await this.weighingRepository.create({
                         code: item.code,
@@ -54,7 +57,7 @@ class CreateWeighingSummaryUseCase {
 
         allWeighings.map(async (item) => {
             if (item.sync !== sync) {
-                await this.weighingRepository.deleteByCode(item.code)
+                await this.weighingRepository.deleteById(item.id)
             }
         })
 

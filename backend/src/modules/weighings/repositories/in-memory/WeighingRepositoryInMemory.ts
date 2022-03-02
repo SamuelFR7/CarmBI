@@ -15,10 +15,8 @@ class WeighingRepositoryInMemory implements IWeighingRepository {
         return weighing
     }
 
-    async update(code: string, weighing: Weighing): Promise<Weighing> {
-        const weighingToUpdate = this.weighings.find(
-            (item) => item.code === code
-        )
+    async update(id: string, weighing: Weighing): Promise<Weighing> {
+        const weighingToUpdate = this.weighings.find((item) => item.id === id)
 
         const newWeighing = Object.assign(weighingToUpdate, weighing)
 
@@ -35,10 +33,8 @@ class WeighingRepositoryInMemory implements IWeighingRepository {
         return weighing
     }
 
-    async deleteByCode(cod: string): Promise<true | null> {
-        const weighingToDelete = this.weighings.find(
-            (item) => item.code === cod
-        )
+    async deleteById(id: string): Promise<true | null> {
+        const weighingToDelete = this.weighings.find((item) => item.id === id)
 
         if (!weighingToDelete) {
             throw new Error('Has no item do delete')

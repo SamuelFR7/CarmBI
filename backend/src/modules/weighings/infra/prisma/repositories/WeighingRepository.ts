@@ -16,10 +16,10 @@ class WeighingRepository implements IWeighingRepository {
         return weighing[0]
     }
 
-    async update(code: string, weighing: Weighing): Promise<Weighing> {
+    async update(id: string, weighing: Weighing): Promise<Weighing> {
         const updatedWeighing = await prisma.weighing.update({
             where: {
-                code,
+                id,
             },
             data: {
                 code: weighing.code,
@@ -55,8 +55,8 @@ class WeighingRepository implements IWeighingRepository {
         return newWeighing
     }
 
-    async deleteByCode(cod: string): Promise<true> {
-        await prisma.weighing.delete({ where: { code: cod } })
+    async deleteById(id: string): Promise<true> {
+        await prisma.weighing.delete({ where: { id } })
         return true
     }
 

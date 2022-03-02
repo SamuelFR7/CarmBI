@@ -3,10 +3,10 @@ import { IFilterWeighingDTO } from '../dtos/FilterWeighingDTO'
 import { IListWeighingLotsDTO } from '../dtos/ListWeighingsLotsDTO'
 
 export interface IWeighingRepository {
-    deleteByCode(cod: string): Promise<true | null>
+    deleteById(id: string): Promise<true | null>
     findAll(): Promise<Weighing[]>
     findUnique(code: string, lot: string): Promise<Weighing>
-    update(code: string, weighing: Weighing): Promise<Weighing>
+    update(id: string, weighing: Weighing): Promise<Weighing>
     create(weighing: Weighing): Promise<Weighing>
     findByFilters({
         producer_type,
