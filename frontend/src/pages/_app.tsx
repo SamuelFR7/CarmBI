@@ -6,11 +6,11 @@ import { QueryClientProvider } from 'react-query'
 import { queryClient } from '../services/queryClient'
 import { AuthProvider } from '../context/AuthContext'
 
-const MyApp: React.FC<AppProps> = ({Component, pageProps}) => {
+const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
     return (
         <>
             <AuthProvider>
-                <QueryClientProvider client={queryClient} >
+                <QueryClientProvider client={queryClient}>
                     <Component {...pageProps} />
                     <GlobalStyle />
                 </QueryClientProvider>

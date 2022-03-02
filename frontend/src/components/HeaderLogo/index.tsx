@@ -6,9 +6,7 @@ function HeaderLogo() {
     return (
         <Text>
             carm
-            <Text color={theme.colors.green} >
-                .
-            </Text>
+            <Text color={theme.colors.green}>.</Text>
         </Text>
     )
 }

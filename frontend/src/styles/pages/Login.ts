@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { theme } from "../Theme";
+import styled from 'styled-components'
+import { theme } from '../Theme'
 
 export const Container = styled.div`
     display: flex;
@@ -21,7 +21,7 @@ export const Content = styled.form`
     label {
         color: ${theme.colors.text};
         margin-bottom: 0.25rem;
-        
+
         :nth-child(3) {
             margin-top: 1.25rem;
         }

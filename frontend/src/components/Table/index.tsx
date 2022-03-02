@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { CheckButton, Container, Content, Filters, Header, Heading, InfoSummary, WeighingTable } from './styles'
+import {
+    CheckButton,
+    Container,
+    Content,
+    Filters,
+    Header,
+    Heading,
+    InfoSummary,
+    WeighingTable,
+} from './styles'
 import { useQuery } from 'react-query'
 import { api } from '../../services/api'
 
@@ -28,32 +37,38 @@ function Table() {
     const [totalOutput, setTotalOutput] = useState(0)
     const [lastUpdate, setLastUpdate] = useState<string | null>(null)
 
-    const { data: allLots } = useQuery('lots', async () => {
-        const response = await api.get<ILots[]>('/weighings/lots')
+    const { data: allLots } = useQuery(
+        'lots',
+        async () => {
+            const response = await api.get<ILots[]>('/weighings/lots')
 
-        const lotsArray = response.data.reverse()
+            const lotsArray = response.data.reverse()
 
-        return lotsArray
-    }, {
-        staleTime: 1000 * 30 // 30 Seconds
-    })
+            return lotsArray
+        },
+        {
+            staleTime: 1000 * 30, // 30 Seconds
+        }
+    )
 
     async function handleRequest() {
-            setTotalInput(0)
-            setTotalOutput(0)
-            const { data } = await api.get<IWeighing[]>(`/weighings/${producerType}/${lot}`,)
+        setTotalInput(0)
+        setTotalOutput(0)
+        const { data } = await api.get<IWeighing[]>(
+            `/weighings/${producerType}/${lot}`
+        )
 
-            const weighingArray = data.sort((a, b) => {
-                if (a.depositor < b.depositor) {
-                    return -1
-                }
-                if (a.depositor > b.depositor) {
-                    return 1
-                }
-                return 0
-            })
+        const weighingArray = data.sort((a, b) => {
+            if (a.depositor < b.depositor) {
+                return -1
+            }
+            if (a.depositor > b.depositor) {
+                return 1
+            }
+            return 0
+        })
 
-            setWeighings(weighingArray)
+        setWeighings(weighingArray)
     }
 
     useEffect(() => {
@@ -63,13 +78,15 @@ function Table() {
         }
 
         function updateWeighingsInfo() {
-            weighings.map(weighing => {
+            weighings.map((weighing) => {
                 setTotalInput(totalInput + weighing.input)
                 setTotalOutput(totalOutput + weighing.output)
             })
         }
 
-        weighings[0] ? setLastUpdate(weighings[0].updated_at) : getLastUpdateTime()
+        weighings[0]
+            ? setLastUpdate(weighings[0].updated_at)
+            : getLastUpdateTime()
         updateWeighingsInfo()
     }, [weighings])
 
@@ -77,74 +94,115 @@ function Table() {
         <Container>
             <Content>
                 <Header>
-                    <Heading>
-                        Pesagens
-                    </Heading>
+                    <Heading>Pesagens</Heading>
 
                     <Filters>
-                        <CheckButton enabled={producerType === '1' ? true : false} onClick={() => setProducerType('1')}>
-                            <button type='button' ></button>
+                        <CheckButton
+                            enabled={producerType === '1'}
+                            onClick={() => setProducerType('1')}
+                        >
+                            <button type="button"></button>
                             <p>Produtor</p>
                         </CheckButton>
-                        <CheckButton enabled={producerType === '2' ? true : false} onClick={() => setProducerType('2')} >
-                            <button type='button'></button>
+                        <CheckButton
+                            enabled={producerType === '2'}
+                            onClick={() => setProducerType('2')}
+                        >
+                            <button type="button"></button>
                             <p>Comprador</p>
                         </CheckButton>
 
-                        <select onChange={e => setLot(e.target.value)}>
-                            <option value='' disabled selected>Selecione</option>
-                            {allLots?.map(lots => {
+                        <select onChange={(e) => setLot(e.target.value)}>
+                            <option value="" disabled selected>
+                                Selecione
+                            </option>
+                            {allLots?.map((lots) => {
                                 return (
-                                    <option value={lots.lot} key={lots.lot}>{`${lots.lot} - ${lots.product}`}</option>
+                                    <option
+                                        value={lots.lot}
+                                        key={lots.lot}
+                                    >{`${lots.lot} - ${lots.product}`}</option>
                                 )
                             })}
                         </select>
-                        <button className='confirmFilters' onClick={handleRequest} >Confirmar</button>
+                        <button
+                            className="confirmFilters"
+                            onClick={handleRequest}
+                        >
+                            Confirmar
+                        </button>
                     </Filters>
                 </Header>
 
                 <WeighingTable>
-                        <thead>
-                            <tr>
-                                <th>Depositante</th>
-                                <th>Produto</th>
-                                <th>Entrada</th>
-                                <th>Saida</th>
-                                <th>Saldo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {weighings.map(weighing => {
-                                return (
-                                    <tr key={weighing.id}>
-                                        <td>{weighing.depositor}</td>
-                                        <td>{weighing.product}</td>
-                                        <td>{new Intl.NumberFormat('pt-BR').format(weighing.input)}</td>
-                                        <td>{new Intl.NumberFormat('pt-BR').format(weighing.output)}</td>
-                                        <td>{new Intl.NumberFormat('pt-BR').format(weighing.input - weighing.output)}</td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </WeighingTable>
-                    <InfoSummary>
-                        <div>
-                            <h1>Total de Entradas</h1>
-                            <p>{new Intl.NumberFormat('pt-BR').format(totalInput)}</p>
-                        </div>
-                        <div>
-                            <h1>Total de Saídas</h1>
-                            <p>{new Intl.NumberFormat('pt-BR').format(totalOutput)}</p>
-                        </div>
-                        <div>
-                            <h1>Saldo Total</h1>
-                            <p>{new Intl.NumberFormat('pt-BR').format(totalInput - totalOutput)}</p>
-                        </div>
-                        <div>
-                            <h1>Ultima alteração</h1>
-                            <p>{lastUpdate ? new Intl.DateTimeFormat('pt-BR', {dateStyle: 'short',timeStyle: 'short'}).format(Date.parse(lastUpdate)) : 'Carregando...'}</p>
-                        </div>
-                    </InfoSummary>
+                    <thead>
+                        <tr>
+                            <th>Depositante</th>
+                            <th>Produto</th>
+                            <th>Entrada</th>
+                            <th>Saida</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {weighings.map((weighing) => {
+                            return (
+                                <tr key={weighing.id}>
+                                    <td>{weighing.depositor}</td>
+                                    <td>{weighing.product}</td>
+                                    <td>
+                                        {new Intl.NumberFormat('pt-BR').format(
+                                            weighing.input
+                                        )}
+                                    </td>
+                                    <td>
+                                        {new Intl.NumberFormat('pt-BR').format(
+                                            weighing.output
+                                        )}
+                                    </td>
+                                    <td>
+                                        {new Intl.NumberFormat('pt-BR').format(
+                                            weighing.input - weighing.output
+                                        )}
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </WeighingTable>
+                <InfoSummary>
+                    <div>
+                        <h1>Total de Entradas</h1>
+                        <p>
+                            {new Intl.NumberFormat('pt-BR').format(totalInput)}
+                        </p>
+                    </div>
+                    <div>
+                        <h1>Total de Saídas</h1>
+                        <p>
+                            {new Intl.NumberFormat('pt-BR').format(totalOutput)}
+                        </p>
+                    </div>
+                    <div>
+                        <h1>Saldo Total</h1>
+                        <p>
+                            {new Intl.NumberFormat('pt-BR').format(
+                                totalInput - totalOutput
+                            )}
+                        </p>
+                    </div>
+                    <div>
+                        <h1>Ultima alteração</h1>
+                        <p>
+                            {lastUpdate
+                                ? new Intl.DateTimeFormat('pt-BR', {
+                                      dateStyle: 'short',
+                                      timeStyle: 'short',
+                                  }).format(Date.parse(lastUpdate))
+                                : 'Carregando...'}
+                        </p>
+                    </div>
+                </InfoSummary>
             </Content>
         </Container>
     )

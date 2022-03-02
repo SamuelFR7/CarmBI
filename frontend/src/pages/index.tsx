@@ -5,9 +5,9 @@ import { Header } from '../components/Header'
 import { Table } from '../components/Table'
 import { Container } from '../styles/pages/Home'
 
-export default function() {
-    return(
-        <Container>   
+export default function Home() {
+    return (
+        <Container>
             <Header />
             <Table />
         </Container>
@@ -21,12 +21,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         return {
             redirect: {
                 destination: '/login',
-                permanent: false
-            }
+                permanent: false,
+            },
         }
     }
 
     return {
-        props: {}
+        props: {},
     }
 }

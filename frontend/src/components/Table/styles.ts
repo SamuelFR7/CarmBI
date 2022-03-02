@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { theme } from "../../styles/Theme";
+import styled from 'styled-components'
+import { theme } from '../../styles/Theme'
 
 interface ICheckButtonProps {
     enabled: boolean
@@ -40,8 +40,6 @@ export const Filters = styled.div`
         padding: 0.5rem;
         width: 8rem;
         border-radius: 2rem;
-
-        
     }
 
     .confirmFilters {
@@ -56,14 +54,14 @@ export const Filters = styled.div`
 
 export const CheckButton = styled.div<ICheckButtonProps>`
     display: flex;
-    
+
     button {
         height: 1rem;
         width: 1rem;
         border: 2px gray solid;
         border-radius: 50%;
         margin-right: 0.5rem;
-        background: ${p => p.enabled ? 'black' : 'white'};
+        background: ${(p) => (p.enabled ? 'black' : 'white')};
     }
 
     p {
@@ -73,7 +71,6 @@ export const CheckButton = styled.div<ICheckButtonProps>`
     :hover {
         cursor: pointer;
     }
-
 `
 
 export const WeighingTable = styled.table`
@@ -81,7 +78,6 @@ export const WeighingTable = styled.table`
     border-collapse: collapse;
 
     tr {
-        
     }
 
     thead {
@@ -102,8 +98,10 @@ export const WeighingTable = styled.table`
             td {
                 padding: 1rem 1rem;
                 line-height: 1rem;
-                
-                :nth-last-child(1), :nth-last-child(2), :nth-last-child(3){
+
+                :nth-last-child(1),
+                :nth-last-child(2),
+                :nth-last-child(3) {
                     text-align: right;
                 }
             }

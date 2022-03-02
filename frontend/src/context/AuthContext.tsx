@@ -29,7 +29,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
     async function SignIn(username: string, password: string) {
         const { data } = await api.post<ISessionRequest>('/users/session', {
             username,
-            password
+            password,
         })
 
         setCookie(undefined, 'token', data.token, {
