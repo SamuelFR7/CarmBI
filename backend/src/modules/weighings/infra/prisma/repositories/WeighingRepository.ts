@@ -5,10 +5,15 @@ import { IFilterWeighingDTO } from '@modules/weighings/dtos/FilterWeighingDTO'
 import { IListWeighingLotsDTO } from '@modules/weighings/dtos/ListWeighingsLotsDTO'
 
 class WeighingRepository implements IWeighingRepository {
-    async findByCode(code: string): Promise<Weighing> {
-        const weighing = await prisma.weighing.findUnique({ where: { code } })
+    async findUnique(code: string, lot: string): Promise<Weighing> {
+        const weighing = await prisma.weighing.findMany({
+            where: {
+                code,
+                lot,
+            },
+        })
 
-        return weighing
+        return weighing[0]
     }
 
     async update(code: string, weighing: Weighing): Promise<Weighing> {

@@ -9,7 +9,7 @@ datasource db {
 
 model Weighing {
     id              String      @id @default(uuid())
-    code            String      @unique
+    code            String
     depositor       String
     lot             String
     product         String

@@ -17,11 +17,14 @@ class CreateWeighingSummaryUseCase {
         await Promise.all(
             weighings.map(async (item) => {
                 const weighingAlreadyExists =
-                    await this.weighingRepository.findByCode(item.code)
+                    await this.weighingRepository.findUnique(
+                        item.code,
+                        item.lot
+                    )
 
                 if (weighingAlreadyExists) {
                     await this.weighingRepository.update(item.code, {
-                        code: item.code,
+                        code: weighingAlreadyExists.code,
                         depositor: item.depositor,
                         input: item.input,
                         lot: item.lot,

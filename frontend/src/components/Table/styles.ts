@@ -28,6 +28,10 @@ export const Header = styled.div`
 
     @media (max-width: 768px) {
         flex-direction: column;
+
+        h2 {
+            margin-bottom: 1rem;
+        }
     }
 `
 

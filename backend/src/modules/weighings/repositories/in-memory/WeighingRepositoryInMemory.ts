@@ -7,8 +7,10 @@ import { IListWeighingLotsDTO } from '@modules/weighings/dtos/ListWeighingsLotsD
 class WeighingRepositoryInMemory implements IWeighingRepository {
     weighings: Weighing[] = []
 
-    async findByCode(code: string): Promise<Weighing> {
-        const weighing = this.weighings.find((item) => item.code === code)
+    async findUnique(code: string, lot: string): Promise<Weighing> {
+        const weighing = this.weighings.find(
+            (item) => item.code === code && item.lot === lot
+        )
 
         return weighing
     }

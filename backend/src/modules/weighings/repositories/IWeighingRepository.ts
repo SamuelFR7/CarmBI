@@ -5,7 +5,7 @@ import { IListWeighingLotsDTO } from '../dtos/ListWeighingsLotsDTO'
 export interface IWeighingRepository {
     deleteByCode(cod: string): Promise<true | null>
     findAll(): Promise<Weighing[]>
-    findByCode(code: string): Promise<Weighing>
+    findUnique(code: string, lot: string): Promise<Weighing>
     update(code: string, weighing: Weighing): Promise<Weighing>
     create(weighing: Weighing): Promise<Weighing>
     findByFilters({
