@@ -1,5 +1,6 @@
 import { IWeighingRepository } from '@modules/weighings/repositories/IWeighingRepository'
 import { inject, injectable } from 'tsyringe'
+import { AppError } from '@shared/errors/AppError'
 
 @injectable()
 class ListWeighingUpdateTimeUseCase {
@@ -10,6 +11,10 @@ class ListWeighingUpdateTimeUseCase {
 
     async execute() {
         const weighings = await this.weighingRepository.findAll()
+
+        if (!weighings[0]) {
+            throw new AppError('Does not exists any weighing')
+        }
 
         const updateTime = weighings[0].updated_at
 
