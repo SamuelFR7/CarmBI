@@ -25,6 +25,10 @@ export const Header = styled.div`
     margin-bottom: 2rem;
     justify-content: space-between;
     align-items: center;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
 `
 
 export const Heading = styled.h2`
@@ -40,6 +44,7 @@ export const Filters = styled.div`
         padding: 0.5rem;
         width: 8rem;
         border-radius: 2rem;
+        color: black;
     }
 
     .confirmFilters {
@@ -77,9 +82,6 @@ export const WeighingTable = styled.table`
     width: 100%;
     border-collapse: collapse;
 
-    tr {
-    }
-
     thead {
         tr {
             th {
@@ -99,11 +101,69 @@ export const WeighingTable = styled.table`
                 padding: 1rem 1rem;
                 line-height: 1rem;
 
-                :nth-last-child(1),
-                :nth-last-child(2),
-                :nth-last-child(3) {
-                    text-align: right;
+                @media (min-width: 769px) {
+                    :nth-last-child(1),
+                    :nth-last-child(2),
+                    :nth-last-child(3) {
+                        text-align: right;
+                    }
                 }
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        display: block;
+        width: 100%;
+
+        thead {
+            display: none;
+        }
+
+        td,
+        th {
+            border: 1px solid ${theme.colors.gray[600]};
+        }
+
+        tbody,
+        tr,
+        td {
+            display: block;
+            width: 100%;
+        }
+
+        tr {
+            margin-bottom: 1.5rem;
+        }
+
+        td {
+            text-align: right;
+            padding-left: 50%;
+
+            :nth-child(1)::before {
+                content: 'Depositante';
+            }
+
+            :nth-child(2)::before {
+                content: 'Produto';
+            }
+
+            :nth-child(3)::before {
+                content: 'Entrada';
+            }
+
+            :nth-child(4)::before {
+                content: 'Saida';
+            }
+
+            :nth-child(5)::before {
+                content: 'Saldo';
+            }
+
+            ::before {
+                float: left;
+                font-weight: bold;
+                font-size: 22px;
             }
         }
     }
@@ -135,6 +195,14 @@ export const InfoSummary = styled.div`
             p {
                 color: green;
             }
+        }
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+
+        div {
+            margin-bottom: 1.5rem;
         }
     }
 `

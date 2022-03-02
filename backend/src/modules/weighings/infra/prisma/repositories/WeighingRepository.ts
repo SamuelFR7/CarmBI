@@ -77,6 +77,12 @@ class WeighingRepository implements IWeighingRepository {
 
     async listLots(): Promise<IListWeighingLotsDTO[]> {
         const lots = await prisma.weighing.findMany({
+            distinct: ['lot'],
+            orderBy: [
+                {
+                    lot: 'desc',
+                },
+            ],
             select: {
                 lot: true,
                 product: true,

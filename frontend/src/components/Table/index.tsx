@@ -42,9 +42,7 @@ function Table() {
         async () => {
             const response = await api.get<ILots[]>('/weighings/lots')
 
-            const lotsArray = response.data.reverse()
-
-            return lotsArray
+            return response.data
         },
         {
             staleTime: 1000 * 30, // 30 Seconds
@@ -78,10 +76,14 @@ function Table() {
         }
 
         function updateWeighingsInfo() {
+            let newTotalInput = totalInput
+            let newTotalOutput = totalOutput
             weighings.map((weighing) => {
-                setTotalInput(totalInput + weighing.input)
-                setTotalOutput(totalOutput + weighing.output)
+                newTotalInput = newTotalInput + weighing.input
+                newTotalOutput = newTotalOutput + weighing.output
             })
+            setTotalInput(newTotalInput)
+            setTotalOutput(newTotalOutput)
         }
 
         weighings[0]
@@ -174,25 +176,34 @@ function Table() {
                     <div>
                         <h1>Total de Entradas</h1>
                         <p>
-                            {new Intl.NumberFormat('pt-BR').format(totalInput)}
+                            {new Intl.NumberFormat('pt-BR').format(totalInput)}{' '}
+                            {`(${new Intl.NumberFormat('pt-BR', {
+                                maximumFractionDigits: 0,
+                            }).format(totalInput / 60)} sc)`}
                         </p>
                     </div>
                     <div>
                         <h1>Total de Saídas</h1>
                         <p>
-                            {new Intl.NumberFormat('pt-BR').format(totalOutput)}
+                            {new Intl.NumberFormat('pt-BR').format(totalOutput)}{' '}
+                            {`(${new Intl.NumberFormat('pt-BR', {
+                                maximumFractionDigits: 0,
+                            }).format(totalOutput / 60)} sc)`}
                         </p>
                     </div>
                     <div>
-                        <h1>Saldo Total</h1>
+                        <h1>Saldo</h1>
                         <p>
                             {new Intl.NumberFormat('pt-BR').format(
                                 totalInput - totalOutput
-                            )}
+                            )}{' '}
+                            {`(${new Intl.NumberFormat('pt-BR', {
+                                maximumFractionDigits: 0,
+                            }).format((totalInput - totalOutput) / 60)} sc)`}
                         </p>
                     </div>
                     <div>
-                        <h1>Ultima alteração</h1>
+                        <h1>Última atualização</h1>
                         <p>
                             {lastUpdate
                                 ? new Intl.DateTimeFormat('pt-BR', {

@@ -7,6 +7,7 @@ function HeaderLogo() {
         <Text>
             carm
             <Text color={theme.colors.green}>.</Text>
+            BI
         </Text>
     )
 }
