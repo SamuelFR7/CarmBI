@@ -40,5 +40,9 @@ export const Content = styled.form`
         border: 0;
         border-radius: 0.5rem;
         color: ${theme.colors.text};
+
+        :hover {
+            filter: brightness(0.9);
+        }
     }
 `

@@ -58,6 +58,10 @@ export const Filters = styled.div`
         padding: 0.5rem;
         border: 1px solid black;
         border-radius: 0.5rem;
+
+        :hover {
+            filter: brightness(0.9);
+        }
     }
 `
 

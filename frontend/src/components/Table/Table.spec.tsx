@@ -7,5 +7,7 @@ describe('Table component', () => {
         render(<Table />)
 
         expect(screen.getByText('Pesagens')).toBeInTheDocument()
+        expect(screen.getByText('Produtor')).toBeInTheDocument()
+        expect(screen.getByText('Comprador')).toBeInTheDocument()
     })
 })
