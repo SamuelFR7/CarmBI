@@ -9,7 +9,6 @@ import {
     InfoSummary,
     WeighingTable,
 } from './styles'
-import { useQuery } from 'react-query'
 import { api } from '../../services/api'
 
 interface IWeighing {
@@ -30,43 +29,20 @@ interface ILots {
 }
 
 function Table() {
-    const [producerType, setProducerType] = useState('0')
+    const [producerType, setProducerType] = useState('1')
     const [lot, setLot] = useState('0')
     const [weighings, setWeighings] = useState<IWeighing[]>([])
     const [totalInput, setTotalInput] = useState(0)
     const [totalOutput, setTotalOutput] = useState(0)
     const [lastUpdate, setLastUpdate] = useState<string | null>(null)
-
-    const { data: allLots } = useQuery(
-        'lots',
-        async () => {
-            const response = await api.get<ILots[]>('/weighings/lots')
-
-            return response.data
-        },
-        {
-            staleTime: 1000 * 30, // 30 Seconds
-        }
-    )
+    const [allLots, setAllLots] = useState<ILots[]>([])
 
     async function handleRequest() {
-        setTotalInput(0)
-        setTotalOutput(0)
         const { data } = await api.get<IWeighing[]>(
             `/weighings/${producerType}/${lot}`
         )
 
-        const weighingArray = data.sort((a, b) => {
-            if (a.depositor < b.depositor) {
-                return -1
-            }
-            if (a.depositor > b.depositor) {
-                return 1
-            }
-            return 0
-        })
-
-        setWeighings(weighingArray)
+        setWeighings(data)
     }
 
     useEffect(() => {
@@ -76,8 +52,8 @@ function Table() {
         }
 
         function updateWeighingsInfo() {
-            let newTotalInput = totalInput
-            let newTotalOutput = totalOutput
+            let newTotalInput = 0
+            let newTotalOutput = 0
             weighings.map((weighing) => {
                 newTotalInput = newTotalInput + weighing.input
                 newTotalOutput = newTotalOutput + weighing.output
@@ -86,11 +62,28 @@ function Table() {
             setTotalOutput(newTotalOutput)
         }
 
-        weighings[0]
-            ? setLastUpdate(weighings[0].updated_at)
-            : getLastUpdateTime()
+        if (weighings[0]) {
+            setLastUpdate(weighings[0].updated_at)
+        } else {
+            getLastUpdateTime()
+        }
+
         updateWeighingsInfo()
     }, [weighings])
+
+    useEffect(() => {
+        async function getAllLotsAndSearchWeighings() {
+            const { data: allLots } = await api.get<ILots[]>('/weighings/lots')
+            setAllLots(allLots)
+            setLot(allLots[0].lot)
+
+            const { data: newWeighings } = await api.get<IWeighing[]>(
+                `/weighings/${producerType}/${allLots[0].lot}`
+            )
+            setWeighings(newWeighings)
+        }
+        getAllLotsAndSearchWeighings()
+    }, [])
 
     return (
         <Container>
@@ -115,9 +108,6 @@ function Table() {
                         </CheckButton>
 
                         <select onChange={(e) => setLot(e.target.value)}>
-                            <option value="" disabled selected>
-                                Selecione
-                            </option>
                             {allLots?.map((lots) => {
                                 return (
                                     <option

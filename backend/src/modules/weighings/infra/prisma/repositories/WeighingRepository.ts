@@ -71,6 +71,11 @@ class WeighingRepository implements IWeighingRepository {
         lot,
     }: IFilterWeighingDTO): Promise<Weighing[]> {
         const filteredWeighings = await prisma.weighing.findMany({
+            orderBy: [
+                {
+                    depositor: 'asc',
+                },
+            ],
             where: {
                 producer_type,
                 lot,
