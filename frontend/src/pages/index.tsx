@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next'
+import Head from 'next/head'
 import { parseCookies } from 'nookies'
 import React from 'react'
 import { Header } from '../components/Header'
@@ -7,10 +8,15 @@ import { Container } from '../styles/pages/Home'
 
 export default function Home() {
     return (
-        <Container>
-            <Header />
-            <Table />
-        </Container>
+        <>
+            <Head>
+                <title>Carm</title>
+            </Head>
+            <Container>
+                <Header />
+                <Table />
+            </Container>
+        </>
     )
 }
 
