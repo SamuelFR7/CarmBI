@@ -36,7 +36,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }} 
-          source: "./backend, !node_modules"
+          source: "backend, !backend/node_modules"
           target: "~/apps/carmbi-api"
 
       - name: Update API
@@ -47,7 +47,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/apps/carmbi-api
+            cd ~/apps/carmbi-api/backend
             yarn
             yarn prisma migrate dev
             pm2 restart carmbi_api
