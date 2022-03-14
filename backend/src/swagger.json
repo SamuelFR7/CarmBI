@@ -75,67 +75,57 @@
                         "description": "Unauthorized"
                     }
                 }
-            },
+            }
+        },
+        "/weighings/lots": {
             "get": {
                 "tags": ["Weighings"],
-                "summary": "List all weighings",
-                "description": "List all weighings",
+                "summary": "List all lots",
+                "description": "List all lots",
+                "security": [
+                    { "bearerAuth": [] } 
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listed"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/weighings/:producer/:lot": {
+            "get": {
+                "tags": ["Weighings"],
+                "summary": "List weighings by producer and lot",
+                "description": "List weighings by producer and lot",
                 "security": [
                     { "bearerAuth": [] }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "properties": {
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "code": {
-                                            "type": "string"
-                                        },
-                                        "depositor":{
-                                            "type": "string"
-                                        },
-                                        "lot": {
-                                            "type": "string"
-                                        },
-                                        "product": {
-                                            "type": "string"
-                                        },
-                                        "input": {
-                                            "type": "int"
-                                        },
-                                        "output": {
-                                            "type": "int"
-                                        },
-                                        "sync": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "example": 
-                                        [
-                                            {
-                                                "id": "5b0b1bc0-dc4b-4f99-8ff5-de23bd427d39",
-                                                "code": "Weighing code example",
-                                                "depositor": "Weighing depositor example",
-                                                "lot": "Weighing lot example",
-                                                "product": "Weighing product example",
-                                                "input": 100,
-                                                "output": 1,
-                                                "sync": "4e284973-de62-4e5a-99c9-4692f3b1c665"
-                                            }
-                                        ]
-                                }
-                            }
-                        }
+                        "description": "Listed"
                     },
                     "401": {
                         "description": "Unauthorized"
-                    } 
+                    }
+                }
+            }
+        },
+        "/weighings/time": {
+            "tags": ["Weighings"],
+            "summary": "List last time update",
+            "description": "List last time update",
+            "security": [
+                { "bearerAuth": [] }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Listed"
+                },
+                "401": {
+                    "description": "Unauthorized"
                 }
             }
         },
