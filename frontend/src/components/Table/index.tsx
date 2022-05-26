@@ -166,27 +166,29 @@ function Table() {
                     <div>
                         <h1>Total de Entradas</h1>
                         <p>
-                            {new Intl.NumberFormat('pt-BR').format(totalInput)}{' '}
-                            {`(${new Intl.NumberFormat('pt-BR', {
-                                maximumFractionDigits: 0,
-                            }).format(totalInput / 60)} sc)`}
+                            {new Intl.NumberFormat('pt-BR').format(totalInput)}
                         </p>
+                        <p>{`(${new Intl.NumberFormat('pt-BR', {
+                            maximumFractionDigits: 0,
+                        }).format(totalInput / 60)} sc)`}</p>
                     </div>
                     <div>
                         <h1>Total de Saídas</h1>
                         <p>
-                            {new Intl.NumberFormat('pt-BR').format(totalOutput)}{' '}
-                            {`(${new Intl.NumberFormat('pt-BR', {
-                                maximumFractionDigits: 0,
-                            }).format(totalOutput / 60)} sc)`}
+                            {new Intl.NumberFormat('pt-BR').format(totalOutput)}
                         </p>
+                        <p>{`(${new Intl.NumberFormat('pt-BR', {
+                            maximumFractionDigits: 0,
+                        }).format(totalOutput / 60)} sc)`}</p>
                     </div>
                     <div>
                         <h1>Saldo</h1>
                         <p>
                             {new Intl.NumberFormat('pt-BR').format(
                                 totalInput - totalOutput
-                            )}{' '}
+                            )}
+                        </p>
+                        <p>
                             {`(${new Intl.NumberFormat('pt-BR', {
                                 maximumFractionDigits: 0,
                             }).format((totalInput - totalOutput) / 60)} sc)`}
